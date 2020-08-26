@@ -7,10 +7,6 @@ const routes: Routes = [
     loadChildren: () => import('./main-timers/main-timers.module').then( m => m.MainTimersPageModule)
   },
   {
-    path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
-  },
-  {
     path: '',
     redirectTo: 'main-timers',
     pathMatch: 'full'

@@ -5,11 +5,10 @@
 </ion-header>
 
 <ion-content>
-<p>HELLLOOOOOOOOOOUUUUUUU!!!!!</p>
   <ion-list>
     <ion-item *ngFor="let c of cajas">
-      <ion-label>{{c.id}}</ion-label>
-      <ion-label>{{c.timerValue}}</ion-label>
+      Numero: {{c.id}} Nombre: {{c.nombre}} Valor: {{c.timerValue}}
     </ion-item>
+    <ion-button (click)="fileWrite()">Add items</ion-button>
   </ion-list>
 </ion-content>
