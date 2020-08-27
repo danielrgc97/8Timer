@@ -11,7 +11,7 @@ export class CajasService {
   cajas: Caja[] = [];
   json = [];
 
-  constructor() {  }
+  constructor() {}
 
   // Funciones de gestion de almacenamiento
 
@@ -38,14 +38,13 @@ export class CajasService {
   }
 
   // Funciones de la logica cajas.service
-  
+
   getAllCajas(){
     return [...this.cajas];
   }
 
-  addCaja(nombre: string, timerValue: string){
-    const id = '' + this.cajas.length;
-    this.cajas.push({ id , nombre, timerValue});
+  addCaja(nombre: string, timerValue: number){
+    this.cajas.push({ id: this.cajas.length, nombre, timerValue, countingValue: timerValue});
     this.setObjects();
   }
 

@@ -1,5 +1,8 @@
+import { interval } from 'rxjs';
+
 export interface Caja{
-    id: string;
+    id: number;
     nombre: string;
-    timerValue: string;
+    timerValue: number;
+    countingValue: number;
 }
