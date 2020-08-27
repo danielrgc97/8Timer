@@ -27,21 +27,31 @@ export class CajasService {
   async getObjects() {
     const j = await Storage.get({ key: '8Timer' });
     this.json = JSON.parse(j.value);
-
-    for ( let i = 0 ; i < this.json.length ; i++){
-      this.cajas[i] = this.json[i];
+    if ( this.json != null){
+      for ( let i = 0 ; i < this.json.length ; i++){
+        this.cajas[i] = this.json[i];
+      }
     }
+    return j;
   }
 
   async setObjects() {
-    console.log(this.json);
+    if ( this.cajas != null){
+      this.json = [];
+      for ( let i = 0 ; i < this.cajas.length ; i++){
+        this.json[i] = this.cajas[i];
+      }
+    }
     await Storage.set({key: '8Timer', value: JSON.stringify(this.json)
     });
   }
 
 
-  addCaja(id: string, nombre: string, timerValue: string){
-    this.cajas.push({ id, nombre, timerValue});
+  addCaja(nombre: string, timerValue: string){
+    this.getObjects();
+    const id = '' + this.cajas.length;
+    this.cajas.push({ id , nombre, timerValue});
+    this.setObjects();
   }
 
 }

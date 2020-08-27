@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content>
-
+  
   <ion-list>
     <ion-item *ngFor="let c of cajas">
       <ion-label>
@@ -15,7 +15,11 @@
     </ion-item>
   </ion-list>
 
-  <ion-button (click)="a()">A</ion-button>
-  <ion-button (click)="b()">B</ion-button>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="createCaja()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
 </ion-content>
