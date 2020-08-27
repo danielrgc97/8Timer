@@ -66,30 +66,7 @@ export class MainTimersPage implements OnInit {
       await alert.present();
   }
 
-  a(){
-    this.cajas[0].counting = true;
-  }
 
-  seconds() {
-    if ( this.cajas != null ){
-    this.cajas[0].countingValue--;
-    }
-    console.log(this.cajas);
-  }
-
-startTimer() {
-    this.interval = setInterval(() => {
-      if(this.timeLeft > 0) {
-        this.timeLeft--;
-      } else {
-        this.timeLeft = 60;
-      }
-    },1000)
-  }
-
-  pauseTimer() {
-    clearInterval(this.interval);
-  }
 
 
 
