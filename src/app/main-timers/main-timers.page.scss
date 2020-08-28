@@ -1,0 +1,41 @@
+ion-content{
+  --ion-background-color:#e0e0e0;
+}
+#container {
+    position: relative;
+    background-color: rgb(255, 255, 255);
+    background-position: right bottom, left top;
+    background-repeat: no-repeat, repeat;
+    height: 100px;
+    width: 80%;
+    left: 10%;
+  }
+#name {
+  position: absolute;
+  background-color: rgb(255, 255, 255);
+  height: 30px;
+  width: 80%;
+  left: 10%;
+  text-align: center;
+}
+
+#time{
+  position: absolute;
+  background-color: rgb(255, 255, 255);
+  top: 30px;
+  width: 30%;
+  height: 70px;
+  right: 50%;
+  font-size: 40px;
+}
+#buttons{
+  position: absolute;
+  background-color: rgb(255, 255, 255);
+  top: 30px;
+  width: 50%;
+  height: 70px;
+  left: 50%;
+}
+div{
+  font-family: "Times New Roman", Times, serif;
+}
