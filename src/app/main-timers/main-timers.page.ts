@@ -45,8 +45,12 @@ export class MainTimersPage implements OnInit {
           {
             text: 'Create',
             handler: (data) => {
-              this.cajasService.addCaja(data.name, parseInt(data.time, 10));
-              this.ngOnInit();
+              if ( data.name === "" || data.time === "" ){
+                this.createCajaAlert();
+              }else{
+                this.cajasService.addCaja(data.name, parseInt(data.time, 10));
+                this.ngOnInit();
+              }
             }
           }
         ]
@@ -62,27 +66,27 @@ export class MainTimersPage implements OnInit {
         {
           name: 'name',
           type: 'text',
-          placeholder: this.cajas[id].nombre
+          value: this.cajas[id].nombre
         },
         {
           name: 'time',
           type: 'number',
-          placeholder: 'seconds'
+          value: this.cajas[id].timerValue
         }
       ],
       buttons: [
         {
           text: 'Delete',
           handler: (data) => {
-            this.cajasService.deleteCaja(data.id);
+            this.cajasService.deleteCaja(id);
             this.ngOnInit();
           }
         },
         {
           text: 'Edit',
           handler: (data) => {
-            console.log(data.name);
-            if ( data.name === "" || data.number === ""){
+            console.log(data.number);
+            if ( data.name === "" || data.time === "" ){
               this.editCajaAlert(id);
             }else{
               this.cajasService.editCaja(id, data.name, parseInt(data.time, 10));
