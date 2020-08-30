@@ -12,7 +12,7 @@ export class CajasService {
 
   constructor() {}
 
-  // Funciones de la logica cajas.service
+  // Funciones de la logica de servicio cajas
 
   getAllCajas(){
     return [...this.cajas];
@@ -32,6 +32,7 @@ export class CajasService {
     this.cajas[id].nombre = nombre;
     this.cajas[id].timerValue = timerValue;
     this.cajas[id].countingValue = timerValue;
+    this.setObjects();
   }
 
   volcarCajas(cs: Caja[]){

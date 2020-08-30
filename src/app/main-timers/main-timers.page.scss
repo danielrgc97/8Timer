@@ -9,8 +9,8 @@
   top:-2px;
   text-align:center;
 }
-li:nth-child(1) {
-  margin-top: 50px;
+dt:nth-child(1) {
+  margin-top: 70px;
 }
 
 // Body
@@ -24,9 +24,12 @@ ion-content{
 ul {
   height: 90%;
   position: absolute;
-  width: 110%;
+  width: 100%;
   right: 0px;
   list-style-type: none;
+}
+dt:nth-last-child(1) {
+  margin-bottom: 70px;
 }
 
 // List elements

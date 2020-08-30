@@ -4,6 +4,8 @@ import { CajasService } from './cajas.service';
 import { AlertController } from '@ionic/angular';
 
 import { Plugins, FilesystemDirectory, FilesystemEncoding } from '@capacitor/core';
+import * as $ from 'jquery';
+
 
 @Component({
   selector: 'app-main-timers',
@@ -21,6 +23,8 @@ export class MainTimersPage implements OnInit {
       this.cajas = this.cajasService.getAllCajas();
     });
   }
+
+  // Alerts
 
   async createCajaAlert(){
       const alert = await this.alertController.create({
@@ -100,7 +104,9 @@ export class MainTimersPage implements OnInit {
     });
 
     await alert.present();
-}
+  }
+
+  // Buttons
 
   playpauseButton(id: number){
     if ( this.cajas[id].counting === true ){
@@ -115,8 +121,7 @@ export class MainTimersPage implements OnInit {
     this.cajas[id].interval = setInterval(() => {
       --this.cajas[id].countingValue;
       if ( this.cajas[id].countingValue < 0){
-        this.cajas[id].countingValue = this.cajas[id].timerValue;
-        this.playpauseButton(id);
+        this.resetButton(id);
       }
     }, 1000);
   }

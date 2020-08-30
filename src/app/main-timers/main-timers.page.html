@@ -7,8 +7,8 @@
 <ion-content>
   
   <div id="lista">
-    <ul>
-      <li *ngFor="let c of cajas;let i = index">
+    <dl>
+      <dt *ngFor="let c of cajas;let i = index">
         <div id="container">
           <div id = "name">{{c.nombre}}</div>
           <div id = "time">{{c.countingValue}} </div>
@@ -18,8 +18,8 @@
             <ion-button size="small" (click)="editCajaAlert(i)"><ion-icon name="construct-outline"></ion-icon></ion-button>
           </div>
         </div>
-      </li>
-    </ul>  
+      </dt>
+    </dl>  
   </div>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
