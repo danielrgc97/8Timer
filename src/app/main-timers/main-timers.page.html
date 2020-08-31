@@ -1,7 +1,7 @@
 <ion-header >
   <ion-toolbar color="primary">
-    <ion-button slot="start" fill="clear" color="light">
-      <ion-menu-button></ion-menu-button>
+    <ion-button slot="start" fill="clear" >
+      <ion-menu-button color="light"></ion-menu-button>
     </ion-button>
     <ion-title mode=ios>
       <ion-icon class="topIcon" src="../../assets/icon/full-white.svg"> </ion-icon>
@@ -45,8 +45,8 @@
   </div> -->
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="createCajaAlert()">
-      <ion-icon name="add"></ion-icon>
+    <ion-fab-button color="secondary" (click)="createCajaAlert()">
+      <ion-icon name="add" color="primary"></ion-icon>
     </ion-fab-button>
   </ion-fab>
 
