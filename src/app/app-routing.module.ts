@@ -3,13 +3,8 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
-    path: 'main-timers',
-    loadChildren: () => import('./main-timers/main-timers.module').then( m => m.MainTimersPageModule)
-  },
-  {
     path: '',
-    redirectTo: 'main-timers',
-    pathMatch: 'full'
+    loadChildren: () => import('./menu/menu.module').then( m => m.MenuPageModule)
   },
 ];
 

@@ -1,25 +1,29 @@
 <ion-header>
-  <div id="topIcon">
-    <img  width="60px" height="60px" src="../../assets/images/fullblue-nofondo.png">
-  </div>
-</ion-header>
+  <ion-toolbar>
+    <ion-button slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-button>
+  </ion-toolbar>
+  <!-- <div id="topIcon">
+    <img  width="60px" height="60px" src="../../assets/icon/white-over-black.png">
+  </div> -->
 
-<ion-content>
+</ion-header>
+<ion-content padding class="getstart">
   
   <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
-    
-        <div class="container" *ngFor="let c of cajas;let i = index" cdkDrag>
-          <div class = "name">{{c.nombre}}</div>
-          <div class = "time">{{c.countingValue}} </div>
-          <div class = "buttons">
-            <ion-button size="small" (click)="playpauseButton(i)"><ion-icon name="play-outline"></ion-icon></ion-button>
-            <ion-button size="small" (click)="resetButton(i)"><ion-icon name="refresh-outline"></ion-icon></ion-button>
-            <ion-button size="small" (click)="editCajaAlert(i)"><ion-icon name="construct-outline"></ion-icon></ion-button>
-          </div>
+    <div class="container" *ngFor="let c of cajas;let i = index" cdkDrag>
+      <div class="subcontainer">
+        <div class = "name">{{c.nombre}}</div>
+        <div class = "time">{{c.countingValue}} </div>
+        <div class = "buttons">
+          <ion-button color="dark" fill="clear" size="small" (click)="playpauseButton(i)"><ion-icon name="play-sharp"></ion-icon></ion-button>
+          <ion-button color="dark" fill="clear" size="small" (click)="resetButton(i)"><ion-icon name="reload-circle-sharp"></ion-icon></ion-button>
+          <ion-button color="dark" fill="clear" size="small" (click)="editCajaAlert(i)"><ion-icon name="construct-sharp"></ion-icon></ion-button>
         </div>
-        
+      </div>
+    </div>
   </div>
-
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button (click)="createCajaAlert()">
       <ion-icon name="add"></ion-icon>
