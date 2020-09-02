@@ -92,7 +92,6 @@ export class CajasService {
         this.cajas[i] = j[i];
       }
     }
-    console.log(this.cajas[6].countingValue);
     return s;
   }
 

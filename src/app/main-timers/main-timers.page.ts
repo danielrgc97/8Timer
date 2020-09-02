@@ -271,8 +271,22 @@ export class MainTimersPage implements OnInit {
     this.cajas = this.cajasService.getAllCajas();
   }
   drop(event: CdkDragDrop<string[]>) {
-    this.cajasService.moveCajas(event.previousIndex, event.currentIndex);
-    this.ngOnInit();
+    // this.cajasService.moveCajas(event.previousIndex, event.currentIndex);
+    // this.ngOnInit();
+    const tempCaja = this.cajas[event.previousIndex];
+    if (event.previousIndex < event.currentIndex){
+      for (let i = event.previousIndex; i < event.currentIndex; i++){
+        this.cajas[i] = this.cajas[i + 1];
+        this.cajas[i].id = i;
+      }
+    } else {
+      for (let i = event.previousIndex; i > event.currentIndex; i--){
+        this.cajas[i] = this.cajas[i - 1];
+        this.cajas[i].id = i;
+      }
+    }
+    this.cajas[event.currentIndex] = tempCaja;
+    this.cajas[event.currentIndex].id = event.currentIndex;
   }
   displayStringFormer(id: number){
     if (this.cajas[id].countingValue !== null){
