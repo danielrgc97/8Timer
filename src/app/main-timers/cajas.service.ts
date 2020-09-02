@@ -17,7 +17,6 @@ export class CajasService {
   getAllCajas(){
     return [...this.cajas];
   }
-
   addCaja(type: string, nombre: string, timerValue: number, groupName: string, groupLaps: number){
     this.cajas.push({
       type,
@@ -32,24 +31,29 @@ export class CajasService {
     });
     this.setObjects();
   }
-
   deleteCaja(id: number){
     this.cajas.splice( id, 1);
     this.setObjects();
   }
-
-  editCaja(id: number, nombre: string, timerValue: number){
-    this.cajas[id].nombre = nombre;
-    this.cajas[id].timerValue = timerValue;
-    this.cajas[id].countingValue = timerValue;
-    this.setObjects();
-  }
-
   volcarCajas(cs: Caja[]){
     this.cajas = [];
     for ( let i = 0 ; i < cs.length ; i++){
       this.cajas[i] = cs[i];
     }
+    this.setObjects();
+  }
+  moveCajas(fromId: number, toId: number) {
+    const tempCaja = this.cajas[fromId];
+    if (fromId < toId){
+      for (let i = fromId; i < toId; i++){
+        this.cajas[i] = this.cajas[i + 1];
+      }
+    } else {
+      for (let i = fromId; i > toId; i--){
+        this.cajas[i] = this.cajas[i - 1];
+      }
+    }
+    this.cajas[toId] = tempCaja;
     this.setObjects();
   }
 

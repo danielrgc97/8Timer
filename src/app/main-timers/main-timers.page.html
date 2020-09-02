@@ -11,7 +11,7 @@
 
 
 <ion-content class="getstart">
-  <div cdkDropList class="list">
+  <div cdkDropList class="list" (cdkDropListDropped)="drop($event)">
     <!-- Lista con 2 tipos elementos -->
     <div *ngFor="let c of cajas;let i = index; let last = last" class="{{c.type}}" cdkDrag>
       <!-- Tipo cajas -->
@@ -21,7 +21,7 @@
         <div class = "buttons">
           <ion-button color="dark" fill="clear" size="small" (click)="playpause(i)"><ion-icon class="caja-buttons" name="play-outline"></ion-icon></ion-button>
           <ion-button color="dark" fill="clear" size="small" (click)="reset(i)"><ion-icon class="caja-buttons" name="refresh-outline"></ion-icon></ion-button>
-          <ion-button color="dark" fill="clear" size="small" (click)="editCajaTimerAlert(i)"><ion-icon class="caja-buttons" name="settings-outline"></ion-icon></ion-button>
+          <!-- <ion-button color="dark" fill="clear" size="small" (click)="editCajaTimerAlert(i)"><ion-icon class="caja-buttons" name="settings-outline"></ion-icon></ion-button> -->
         </div>
       </div>
       <!-- Tipo cycle -->

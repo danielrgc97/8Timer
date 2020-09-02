@@ -59,48 +59,48 @@ export class MainTimersPage implements OnInit {
 
       await alert.present();
   }
-  async editCajaTimerAlert(id: number){
-    const alert = await this.alertController.create({
-      header: 'Configure',
-      inputs: [
-        {
-          name: 'name',
-          type: 'text',
-          value: this.cajas[id].nombre
-        },
-        {
-          name: 'time',
-          type: 'number',
-          value: this.cajas[id].timerValue
-        }
-      ],
-      buttons: [
-        {
-          text: 'Delete',
-          handler: (data) => {
-            this.cajasService.deleteCaja(id);
-            this.ngOnInit();
-          }
-        },
-        {
-          text: 'Confirm',
-          handler: (data) => {
-            console.log(data.number);
-            if ( data.name === "" || data.time === "" ){
-              this.editCajaTimerAlert(id);
-            }else{
-              this.cajasService.editCaja(id, data.name, parseInt(data.time, 10));
-              this.cajasService.setObjects();
-              this.cajas[id].countingValue = data.time;
-              this.ngOnInit();
-            }
-          }
-        }
-      ]
-    });
+  // async editCajaTimerAlert(id: number){
+  //   const alert = await this.alertController.create({
+  //     header: 'Configure',
+  //     inputs: [
+  //       {
+  //         name: 'name',
+  //         type: 'text',
+  //         value: this.cajas[id].nombre
+  //       },
+  //       {
+  //         name: 'time',
+  //         type: 'number',
+  //         value: this.cajas[id].timerValue
+  //       }
+  //     ],
+  //     buttons: [
+  //       {
+  //         text: 'Delete',
+  //         handler: (data) => {
+  //           this.cajasService.deleteCaja(id);
+  //           this.ngOnInit();
+  //         }
+  //       },
+  //       {
+  //         text: 'Confirm',
+  //         handler: (data) => {
+  //           console.log(data.number);
+  //           if ( data.name === "" || data.time === "" ){
+  //             this.editCajaTimerAlert(id);
+  //           }else{
+  //             this.cajasService.editCaja(id, data.name, parseInt(data.time, 10));
+  //             this.cajasService.setObjects();
+  //             this.cajas[id].countingValue = data.time;
+  //             this.ngOnInit();
+  //           }
+  //         }
+  //       }
+  //     ]
+  //   });
 
-    await alert.present();
-  }
+  //   await alert.present();
+  // }
   async createCajaCircuitAlert(){
     const alert = await this.alertController.create({
       header: 'Creating new circuit',
@@ -170,9 +170,9 @@ export class MainTimersPage implements OnInit {
 
   // Drag and drop
   drop(event: CdkDragDrop<string[]>) {
-    // moveItemInArray(this.cajas, event.previousIndex, event.currentIndex);
+    this.cajasService.moveCajas(event.previousIndex, event.currentIndex);
+    this.ngOnInit();
   }
-
 
 
 }
