@@ -17,18 +17,27 @@ export class CajasService {
   getAllCajas(){
     return [...this.cajas];
   }
-  addCaja(type: string, nombre: string, timerValue: number, groupName: string, groupLaps: number){
+  addCaja(type: string, circuitState: number, timerName: string, timerValue: number, circuitName: string, circuitLaps: number){
     this.cajas.push({
       type,
+      enabled: true,
+      circuitState,
       id: this.cajas.length,
-      nombre,
+      timerName,
       timerValue,
       countingValue: timerValue,
+      displayString: null,
       counting: false,
       interval: null,
-      groupName,
-      groupLaps
+      circuitName,
+      circuitLaps
     });
+    this.setObjects();
+  }
+  editCaja(id: number, timerName: string, timerValue: number){
+    this.cajas[id].timerName = timerName;
+    this.cajas[id].timerValue = timerValue;
+    this.cajas[id].countingValue = timerValue;
     this.setObjects();
   }
   deleteCaja(id: number){
@@ -47,13 +56,16 @@ export class CajasService {
     if (fromId < toId){
       for (let i = fromId; i < toId; i++){
         this.cajas[i] = this.cajas[i + 1];
+        this.cajas[i].id = i;
       }
     } else {
       for (let i = fromId; i > toId; i--){
         this.cajas[i] = this.cajas[i - 1];
+        this.cajas[i].id = i;
       }
     }
     this.cajas[toId] = tempCaja;
+    this.cajas[toId].id = toId;
     this.setObjects();
   }
 
@@ -68,6 +80,7 @@ export class CajasService {
         this.cajas[i] = j[i];
       }
     }
+    console.log(this.cajas[6].countingValue);
     return s;
   }
 

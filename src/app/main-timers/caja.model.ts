@@ -1,15 +1,23 @@
 import { interval } from 'rxjs';
 
 export interface Caja{
-    type: string;
+    // Propiedades globales para cualquier tipo
     id: number;
-    nombre: string;
+    type: string;
+    enabled: boolean;
+    circuitState: number;
+
+    // Propiedades de los timers
+    timerName: string;
     timerValue: number;
     countingValue: number;
-    groupName: string;
-    groupLaps: number;
-
-    // Variables para logica timer
+    displayString: string;
+        // Variables para uso de la funcion setInterval
     counting: boolean;
     interval;
+
+    // Propiedades de los circuitos
+    circuitName: string;
+    circuitLaps: number;
 }
+

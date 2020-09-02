@@ -14,38 +14,35 @@
   <div cdkDropList class="list" (cdkDropListDropped)="drop($event)">
     <!-- Lista con 2 tipos elementos -->
     <div *ngFor="let c of cajas;let i = index; let last = last" class="{{c.type}}" cdkDrag>
-      <!-- Tipo cajas -->
+
+      <!-- Tipo cajas activadas -->
       <div *ngIf="c.type==='timer'">
-        <div class = "name">{{c.nombre}}</div>
-        <div class = "time">{{c.countingValue}}:{{c.countingValue}} </div>
+        <div class = "name"> {{c.timerName}}</div>
+        <ion-button class = "time" size="small" fill="clear" (click)="editCajaTimerAlert(i)">{{c.displayString}}</ion-button>
         <div class = "buttons">
           <ion-button color="dark" fill="clear" size="small" (click)="playpause(i)"><ion-icon class="caja-buttons" name="play-outline"></ion-icon></ion-button>
           <ion-button color="dark" fill="clear" size="small" (click)="reset(i)"><ion-icon class="caja-buttons" name="refresh-outline"></ion-icon></ion-button>
-          <!-- <ion-button color="dark" fill="clear" size="small" (click)="editCajaTimerAlert(i)"><ion-icon class="caja-buttons" name="settings-outline"></ion-icon></ion-button> -->
         </div>
       </div>
-      <!-- Tipo cycle -->
+
+      <!-- Tipo circuito activado -->
       <div *ngIf="c.type==='circuit'">
           <ion-button fill="clear" size="small"><ion-icon color="light" name="chevron-forward-outline"></ion-icon></ion-button>
-          <span class="circuitNombre"> {{c.groupName}} </span><span class="circuitLaps"> x {{c.groupLaps}} Laps </span>
+          <span class="circuitNombre"> {{c.circuitName}} </span><span class="circuitLaps"> x {{c.circuitLaps}} Laps </span>
       </div>
+
     <!--  -->
     </div>
   </div>
 
-  <!-- <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
-    <div class="container" *ngFor="let c of cajas;let i = index" cdkDrag>
-      <div class="subcontainer">
-        <div class = "name">{{c.nombre}}</div>
-        <div class = "time">{{c.countingValue}} </div>
-        <div class = "buttons">
-          <ion-button color="dark" fill="clear" size="small" (click)="playpauseButton(i)"><ion-icon name="play-sharp"></ion-icon></ion-button>
-          <ion-button color="dark" fill="clear" size="small" (click)="resetButton(i)"><ion-icon name="reload-circle-sharp"></ion-icon></ion-button>
-          <ion-button color="dark" fill="clear" size="small" (click)="editCajaAlert(i)"><ion-icon name="construct-sharp"></ion-icon></ion-button>
-        </div>
-      </div>
-    </div>
-  </div> -->
+  
+
+
+
+
+
+
+
 
   <!-- Boton para añadir temporizadores y ciclos -->
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
