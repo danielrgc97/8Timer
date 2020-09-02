@@ -18,17 +18,20 @@
       <!-- Tipo cajas activadas -->
       <div *ngIf="c.type==='timer'">
         <div class = "name"> {{c.timerName}}</div>
-        <ion-button class = "time" size="small" fill="clear" (click)="editCajaTimerAlert(i)">{{c.displayString}}</ion-button>
+        <div class = "time" >{{c.displayString}}</div>
+        <ion-button class="buttonCajaTimerEdit" size="small" fill="clear" (click)="editCajaTimerAlert(i)"></ion-button>
         <div class = "buttons">
-          <ion-button color="dark" fill="clear" size="small" (click)="playpause(i)"><ion-icon class="caja-buttons" name="play-outline"></ion-icon></ion-button>
+          <ion-button color="dark" fill="clear" size="small" (click)="playpause(i)"><ion-icon class="caja-buttons" [name]="c.counting===false ? 'play-outline' : 'pause-outline'"></ion-icon></ion-button>
           <ion-button color="dark" fill="clear" size="small" (click)="reset(i)"><ion-icon class="caja-buttons" name="refresh-outline"></ion-icon></ion-button>
         </div>
       </div>
 
       <!-- Tipo circuito activado -->
       <div *ngIf="c.type==='circuit'">
-          <ion-button fill="clear" size="small"><ion-icon color="light" name="chevron-forward-outline"></ion-icon></ion-button>
-          <span class="circuitNombre"> {{c.circuitName}} </span><span class="circuitLaps"> x {{c.circuitLaps}} Laps </span>
+        <span class="circuitNombre" >{{c.circuitName}}</span>
+        <span class="circuitLaps"> x {{c.circuitLaps}} Laps </span>
+        <ion-button class="buttonCajaCircuitEdit" fill="clear" (click)="editCajaCircuitAlert(i)"></ion-button>
+        <ion-button class='flechaCircuit' fill="clear" size="small" (click)="flechaChange(i)"><ion-icon color="light" [name]="c.circuitState===10 ? 'chevron-forward-outline' : 'chevron-down-outline'"></ion-icon></ion-button>
       </div>
 
     <!--  -->

@@ -34,15 +34,24 @@ export class CajasService {
     });
     this.setObjects();
   }
-  editCaja(id: number, timerName: string, timerValue: number){
+  editCaja(id: number, timerName: string, timerValue: number, circuitName: string, circuitLaps: number){
     this.cajas[id].timerName = timerName;
     this.cajas[id].timerValue = timerValue;
     this.cajas[id].countingValue = timerValue;
+    this.cajas[id].circuitName = circuitName;
+    this.cajas[id].circuitLaps = circuitLaps;
     this.setObjects();
   }
   deleteCaja(id: number){
     this.cajas.splice( id, 1);
+    this.orderIds();
     this.setObjects();
+  }
+  orderIds(){
+    let i = 0;
+    for (const c of this.cajas){
+      c.id = i++;
+    }
   }
   volcarCajas(cs: Caja[]){
     this.cajas = [];
@@ -68,7 +77,10 @@ export class CajasService {
     this.cajas[toId].id = toId;
     this.setObjects();
   }
-
+  changeCircuitState(id: number, num: number){
+    this.cajas[id].circuitState = num;
+    this.setObjects();
+  }
 
   // Funciones de gestion de almacenamiento
 

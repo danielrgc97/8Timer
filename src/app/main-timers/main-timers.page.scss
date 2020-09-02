@@ -25,9 +25,23 @@ ion-content {
   left: 2.5%;
   border-radius: 10px;
 }
+.flechaCircuit {
+  position: absolute;
+  top: 1px;
+  left: 0px;
+  width: 15%;
+}
+.buttonCajaCircuitEdit{
+  position: absolute;
+  left: 0px;
+  width: 99%;
+  height: 27px;
+}
 .circuitNombre {
   position: absolute;
-  top: 9px;
+  left: 12%;
+  top: 10px;
+  height: 18px;
   color: var(--ion-color-light);
 }
 .circuitLaps {
@@ -58,13 +72,19 @@ ion-content {
 }
 .time{
   position: absolute;
+  top: 13px;
   font-weight: 100;
-  top: -10px;
   width: 40%;
+  height: 45px;
   left: 15%;
   font-size: 40px;
   text-align: center;
   color: var(--ion-color-dark);
+}
+.buttonCajaTimerEdit{
+  position: absolute;
+  width: 99%;
+  height: 62px;
 }
 .buttons{
   position: absolute;

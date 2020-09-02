@@ -82,7 +82,7 @@ export class MainTimersPage implements OnInit {
   }
   async editCajaTimerAlert(id: number){
     const alert = await this.alertController.create({
-      header: 'Configure',
+      header: 'Set the timer',
       inputs: [
         {
           name: 'name',
@@ -114,6 +114,10 @@ export class MainTimersPage implements OnInit {
           }
         },
         {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
           text: 'Confirm',
           handler: (data) => {
             if ((data.hours > 9 || data.hours < 0) || (data.minutes > 59 || data.minutes < 0) ||
@@ -126,12 +130,8 @@ export class MainTimersPage implements OnInit {
               if ( data.minutes === '' ) { data.minutes = Math.floor(this.cajas[id].timerValue % 3600 / 60); }
               if ( data.seconds === '' ) { data.seconds = Math.floor(this.cajas[id].timerValue % 3600 % 60); }
 
-              let totalTimeValue =  data.hours * 3600 + data.minutes * 60 + 1 * data.seconds;
-              if (totalTimeValue > 35999) {totalTimeValue = 35999; }
-
-              console.log(totalTimeValue);
-
-              this.cajasService.editCaja(id, data.name, totalTimeValue);
+              const totalTimeValue =  data.hours * 3600 + data.minutes * 60 + 1 * data.seconds;
+              this.cajasService.editCaja(id, data.name, totalTimeValue, null, null);
               this.ngOnInit();
             }
           }
@@ -153,7 +153,7 @@ export class MainTimersPage implements OnInit {
         {
           name: 'laps',
           type: 'number',
-          placeholder: 'Laps of the circuit'
+          placeholder: 'Laps of the circuit ( 0 - 999 )'
         }
       ],
       buttons: [
@@ -168,6 +168,52 @@ export class MainTimersPage implements OnInit {
               this.createCajaCircuitAlert();
             }else{
               this.cajasService.addCaja('circuit', 11, null, null, data.name, parseInt(data.laps, 10));
+              this.ngOnInit();
+            }
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+  async editCajaCircuitAlert(id: number){
+    const alert = await this.alertController.create({
+      header: 'Set the circuit',
+      inputs: [
+        {
+          name: 'name',
+          type: 'text',
+          placeholder: 'Current name : ' + this.cajas[id].circuitName
+        },
+        {
+          name: 'laps',
+          type: 'number',
+          placeholder: 'Current name : ' + this.cajas[id].circuitLaps
+        }
+      ],
+      buttons: [
+        {
+          text: 'Delete',
+          handler: (data) => {
+            this.cajasService.deleteCaja(id);
+            this.ngOnInit();
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Confirm',
+          handler: (data) => {
+            if (data.laps > 999 || data.laps < 0){
+              this.editCajaCircuitAlert(id);
+              this.basicAlert('Introduce allowed values');
+            }else{
+              if ( data.name === '' ) { data.name = this.cajas[id].circuitName; }
+              if ( data.laps === '' ) { data.laps = this.cajas[id].circuitLaps; }
+              this.cajasService.editCaja(id, null, null, data.name, data.laps);
               this.ngOnInit();
             }
           }
@@ -218,18 +264,16 @@ export class MainTimersPage implements OnInit {
     this.displayStringFormer(id);
     this.pause(id);
   }
+
+  // Caja controls
   delete(id: number){
     this.cajasService.deleteCaja(id);
     this.cajas = this.cajasService.getAllCajas();
   }
-
-  // Drag and drop
   drop(event: CdkDragDrop<string[]>) {
     this.cajasService.moveCajas(event.previousIndex, event.currentIndex);
     this.ngOnInit();
   }
-
-  // Transfomar segundos a hh:mm:ss y viceversa
   displayStringFormer(id: number){
     if (this.cajas[id].countingValue !== null){
       const h = Math.floor(this.cajas[id].countingValue / 3600 );
@@ -245,4 +289,14 @@ export class MainTimersPage implements OnInit {
     }
   }
 
+  // Circuit control
+  flechaChange(id: number){
+    if (this.cajas[id].circuitState === 11) {
+      this.cajasService.changeCircuitState(id, 10);
+      this.ngOnInit();
+    } else {
+      this.cajasService.changeCircuitState(id, 11);
+      this.ngOnInit();
+    }
+  }
 }
