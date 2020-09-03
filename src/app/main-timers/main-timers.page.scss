@@ -37,6 +37,13 @@ ion-content {
   width: 99%;
   height: 27px;
 }
+.circuitIcon{
+  position: absolute;
+  width: 20%;
+  left: -2%;
+  top: -14px;
+  font-size: 100px;
+}
 .circuitNombre {
   position: absolute;
   left: 12%;
@@ -50,7 +57,7 @@ ion-content {
   top: 9px;
   color: var(--ion-color-light);
 }
-  // Tipo caja 
+  // Tipo caja  
 .timer{
   margin-top: 10px;
   position: relative;
@@ -93,7 +100,7 @@ ion-content {
   height: 45px;
   left: 55%;
   text-align:center;
-  --ionicon-stroke-width: 16px;
+  --ionicon-stroke-width: 20px;
 }
 .caja-buttons {
   font-size: 25px;

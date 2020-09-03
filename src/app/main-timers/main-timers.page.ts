@@ -70,7 +70,7 @@ export class MainTimersPage implements OnInit {
             } else {
               let totalTimeValue =  data.hours * 3600 + data.minutes * 60 + 1 * data.seconds;
               if (totalTimeValue === 0){ totalTimeValue = 1; }
-              this.addCaja( 'timer', 0, data.name, totalTimeValue, null, null);
+              this.addCaja( 'timer', data.name, totalTimeValue, null, null);
               this.ngOnInit();
             }
           }
@@ -170,7 +170,7 @@ export class MainTimersPage implements OnInit {
               this.createCajaCircuitAlert();
               this.basicAlert('A circuit must have name and laps');
             }else{
-              this.addCaja('circuit', 11, null, null, data.name, parseInt(data.laps, 10));
+              this.addCaja('circuit', null, null, data.name, parseInt(data.laps, 10));
             }
           }
         }
@@ -201,10 +201,6 @@ export class MainTimersPage implements OnInit {
             this.deleteCaja(id);
             this.ngOnInit();
           }
-        },
-        {
-          text: 'Cancel',
-          role: 'cancel'
         },
         {
           text: 'Confirm',
@@ -268,11 +264,23 @@ export class MainTimersPage implements OnInit {
   }
 
   // Caja controls
-  addCaja(type: string, circuitState: number, timerName: string, timerValue: number, circuitName: string, circuitLaps: number){
+  addCaja(type: string, timerName: string, timerValue: number, circuitName: string, circuitLaps: number){
+    let c;
+    let cState = 0;
+    let cPos = 0;
+    if ( this.cajas.length !== 0) {
+      c = this.cajas[this.cajas.length - 1];
+      if (c.circuitState === 11) { cState = 3; }
+      if (c.circuitState === 3 && c.circuitPos === 2) {cState = 3; c.circuitState = 1; }
+      if (c.circuitState === 3 && c.circuitPos !== 2) {cState = 3; c.circuitState = 2; }
+      if (c.circuitPos === 0 || c.circuitState === 10 ) {cPos = 0; } else { cPos = c.circuitPos + 1; }
+    }
+    if ( type === 'circuit' ){ cState = 11; cPos = 1; }
+
     this.cajas.push({
       type,
       enabled: true,
-      circuitState,
+      circuitState: cState,
       id: this.cajas.length,
       timerName,
       timerValue,
@@ -280,8 +288,10 @@ export class MainTimersPage implements OnInit {
       displayString: null,
       counting: false,
       interval: null,
+      circuitPos: cPos,
       circuitName,
-      circuitLaps
+      circuitLaps,
+      visible: true
     });
     this.cajasService.volcarCajas(this.cajas);
   }

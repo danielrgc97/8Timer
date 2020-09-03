@@ -17,7 +17,9 @@ export interface Caja{
     interval;
 
     // Propiedades de los circuitos
+    circuitPos: number;
     circuitName: string;
     circuitLaps: number;
+    visible: boolean;
 }
 

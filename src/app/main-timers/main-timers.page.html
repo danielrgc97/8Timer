@@ -17,6 +17,7 @@
 
       <!-- Tipo cajas activadas -->
       <div *ngIf="c.type==='timer'">
+        <ion-icon class="circuitIcon" src="../../assets/icon/mostaza-startcircuit.svg"></ion-icon>
         <div class = "name"> {{c.timerName}}</div>
         <div class = "time" >{{c.displayString}}</div>
         <ion-button class="buttonCajaTimerEdit" size="small" fill="clear" (click)="editCajaTimerAlert(i)"></ion-button>
