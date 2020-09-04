@@ -129,8 +129,8 @@ export class MainTimersPage implements OnInit {
               const totalTimeValue =  h * 3600 + m * 60 + 1 * s;
               this.cajas[id].timerValue = totalTimeValue;
               this.cajas[id].countingValue = totalTimeValue;
-              this.displayStringFormer(id);
-              this.cajasService.volcarCajas(this.cajas);
+              // this.displayStringFormer(id);
+              this.orderEverythingAndSave();
             }
           }
         }
@@ -207,7 +207,7 @@ export class MainTimersPage implements OnInit {
             }else{
               if ( data.name !== '' ) { this.cajas[id].circuitName = data.name; }
               if ( data.laps !== '' ) { this.cajas[id].circuitLaps = data.laps; }
-              this.cajasService.volcarCajas(this.cajas);
+              this.orderEverythingAndSave();
             }
           }
         }
@@ -304,23 +304,34 @@ export class MainTimersPage implements OnInit {
 
   drop(event: CdkDragDrop<string[]>) {
     if (this.cajas[event.previousIndex].type === 'timer') {
-      for (const c of this.cajas) {
-        console.log(c.groupId);
-      }
       this.moveCajas(event.previousIndex, event.currentIndex);
-      // const a = this.cajas[event.currentIndex - 1];
-      // if (a.circuitState === 2 || a.circuitState === 1 || a.circuitState === 11) {
-      //   this.cajas[event.currentIndex].groupId = a.groupId;
-      // } else {
-      //   this.cajas[event.currentIndex].groupId = 999;
-      // }
-      for (const c of this.cajas) {
-        console.log(c.groupId);
-      }
-      this.orderEverythingAndSave();
-    } else {
 
+      if ( event.currentIndex > 0 ) {
+        const a = this.cajas[event.currentIndex - 1];
+        if (a.circuitState === 2 || a.circuitState === 1 || a.circuitState === 11) {
+         this.cajas[event.currentIndex].groupId = a.groupId;
+        } else {
+          this.cajas[event.currentIndex].groupId = 999;
+        }
+      } else {
+        this.cajas[event.currentIndex].groupId = 999;
+      }
+
+    } else {
+      if (event.previousIndex > event.currentIndex) {
+        let posToMove = event.currentIndex;
+        const cajasToMove = this.cajas.filter( caja => caja.groupId === this.cajas[event.previousIndex].groupId);
+        for (const c of cajasToMove) {
+          this.moveCajas( c.id, posToMove++);
+        }
+      } else {
+        const numberOfCajasToMove = this.cajas.filter( caja => caja.groupId === this.cajas[event.previousIndex].groupId).length;
+        for (let i = 0; i < numberOfCajasToMove; i++) {
+          this.moveCajas( event.previousIndex, event.currentIndex);
+        }
+      }
     }
+    this.orderEverythingAndSave();
   }
 
   moveCajas(fromId: number, toId: number) {
@@ -328,14 +339,17 @@ export class MainTimersPage implements OnInit {
     if (fromId < toId){
       for (let i = fromId; i < toId; i++){
         this.cajas[i] = this.cajas[i + 1];
+        // this.cajas[i].id = i;
       }
     } else {
       for (let i = fromId; i > toId; i--){
         this.cajas[i] = this.cajas[i - 1];
+        // this.cajas[i].id = i;
       }
     }
     this.cajas[toId] = tempCaja;
-    this.orderEverythingAndSave();
+    // this.cajas[toId].id = toId;
+    // this.orderEverythingAndSave();
   }
   displayStringFormer(id: number){
     if (this.cajas[id].countingValue !== null){
@@ -353,7 +367,7 @@ export class MainTimersPage implements OnInit {
   }
 
   // Circuit control
-  flechaChange(id: number){
+  circuitHideShow(id: number){
     if (this.cajas[id].circuitState === 11) {
       this.changeCircuitState(id, 10);
       const cajasToHide = this.cajas.filter(caja => caja.groupId === this.cajas[id].groupId && caja.type === 'timer');
@@ -432,5 +446,8 @@ export class MainTimersPage implements OnInit {
     // orderEverythingAndSave
   }
 
+  drag(id: number) {
+    if (this.cajas[id].circuitState === 11) {this.circuitHideShow(id); }
+  }
 
 }
