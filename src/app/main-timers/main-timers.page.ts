@@ -155,7 +155,7 @@ export class MainTimersPage implements OnInit {
         {
           name: 'laps',
           type: 'number',
-          placeholder: 'Laps ( 0 - 999 )'
+          placeholder: 'Number of laps'
         }
       ],
       buttons: [
@@ -169,7 +169,10 @@ export class MainTimersPage implements OnInit {
             if ( data.name === '' || data.laps === '' ){
               this.createCajaCircuitAlert();
               this.basicAlert('A circuit must have name and laps');
-            }else{
+            }else if ( data.laps > 99 || data.laps < 1 ){
+              this.createCajaCircuitAlert();
+              this.basicAlert('Insert correctly values');
+            } else {
               this.addCaja('circuit', null, null, data.name, parseInt(data.laps, 10));
             }
           }
@@ -272,14 +275,15 @@ export class MainTimersPage implements OnInit {
 
   // Caja controls
   addCaja(type: string, timerName: string, timerValue: number, circuitName: string, circuitLaps: number){
-    let cSte = 0;
+    let cSte = 5;
     if (type === 'circuit') {cSte = 11; }
+    
 
     let c;
     let gId;
     if ( this.cajas.length !== 0) {
       c = this.cajas[this.cajas.length - 1];
-      if (type === 'circuit' && c.circuitState !== 0 && c.circuitState !== 10 && c.type !== 'timerHide' ) {
+      if (type === 'timer' && c.circuitState !== 0 && c.circuitState !== 10 && c.type !== 'timerHide' ) {
         gId = c.groupId; cSte = 1;
       } else {
         gId = c.groupId + 1;
@@ -287,6 +291,7 @@ export class MainTimersPage implements OnInit {
     } else {
       gId = 0;
     }
+    console.log(gId);
 
     this.cajas.push({
       type,
@@ -476,9 +481,9 @@ export class MainTimersPage implements OnInit {
             this.reset(c.id);
           }
         }
-        const timersToPause = this.cajas.filter(caja => caja.groupId === this.cajas[id].groupId);
-        for (const t of timersToPause) {
-          this.pause(t.id);
+        const timersToReset = this.cajas.filter(caja => caja.groupId === this.cajas[id].groupId);
+        for (const t of timersToReset) {
+          this.reset(t.id);
         }
         this.play(id);
       }
