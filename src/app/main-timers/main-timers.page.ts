@@ -277,8 +277,6 @@ export class MainTimersPage implements OnInit {
   addCaja(type: string, timerName: string, timerValue: number, circuitName: string, circuitLaps: number){
     let cSte = 5;
     if (type === 'circuit') {cSte = 11; }
-    
-
     let c;
     let gId;
     if ( this.cajas.length !== 0) {
@@ -291,8 +289,6 @@ export class MainTimersPage implements OnInit {
     } else {
       gId = 0;
     }
-    console.log(gId);
-
     this.cajas.push({
       type,
       groupId: gId,
