@@ -121,7 +121,7 @@ export class MainTimersPage implements OnInit {
               let m = Math.floor(this.cajas[id].timerValue % 3600 / 60);
               let s = Math.floor(this.cajas[id].timerValue % 3600 % 60);
 
-              if ( data.name !== null ) { this.cajas[id].timerName = data.name; }
+              if ( data.name !== '' ) { this.cajas[id].timerName = data.name; }
               if ( data.hours !== '' ) { h = data.hours; }
               if ( data.minutes !== '' ) { m = data.minutes; }
               if ( data.seconds !== '' ) { s = data.seconds; }
@@ -270,7 +270,7 @@ export class MainTimersPage implements OnInit {
     let gId;
     if ( this.cajas.length !== 0) {
       c = this.cajas[this.cajas.length - 1];
-      if (c.circuitState !== 0 && c.circuitState !== 10 && c.type !== 'timerHide' ) {
+      if (type === 'circuit' && c.circuitState !== 0 && c.circuitState !== 10 && c.type !== 'timerHide' ) {
         gId = c.groupId; cSte = 1;
       } else {
         gId = c.groupId + 1;
@@ -310,7 +310,7 @@ export class MainTimersPage implements OnInit {
 
       if ( event.currentIndex > 0 ) {
         const a = this.cajas[event.currentIndex - 1];
-        if (a.circuitState === 2 || a.circuitState === 1 || a.circuitState === 11) {
+        if (a.circuitState === 3 || a.circuitState === 2 || a.circuitState === 1 || a.circuitState === 11) {
          this.cajas[event.currentIndex].groupId = a.groupId;
         } else {
           this.cajas[event.currentIndex].groupId = 999;
@@ -367,7 +367,7 @@ export class MainTimersPage implements OnInit {
       if ( m < 10 ) { mm = '0' + m; } else { mm = '' + m; }
 
       if ( h === 0 ) {
-        this.cajas[id].displayString = mm + ':' + ss;
+        this.cajas[id].displayString = m + ':' + ss;
       } else {
         this.cajas[id].displayString = h + ':' + mm + ':' + ss;
       }
@@ -391,6 +391,7 @@ export class MainTimersPage implements OnInit {
         this.cajas[c.id].type = 'timer';
       }
     }
+    this.magic();
   }
   changeCircuitState(id: number, num: number){
     this.cajas[id].circuitState = num;
@@ -428,8 +429,7 @@ export class MainTimersPage implements OnInit {
         let posF = 0;
         let cPos = 0;
         for (const c of this.cajas) {
-          if (c.type === 'circuit') { cPos++; }
-          if (c.groupId === i) { tam++; posF = c.id; this.cajas[c.id].circuitPos = cPos++; }
+          if (c.groupId === i) { tam++; posF = c.id; this.cajas[c.id].circuitPos = ++cPos; }
         }
         const posI = posF - tam + 1;
         if ( tam > 1 ){
