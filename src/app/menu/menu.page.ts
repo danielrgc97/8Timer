@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterEvent } from '@angular/router';
+import { Page } from './page.model';
 
 @Component({
   selector: 'app-menu',
@@ -8,16 +9,7 @@ import { Router, RouterEvent } from '@angular/router';
 })
 export class MenuPage implements OnInit {
 
-  options = [
-    {
-      name: 'timers',
-      url: '/menu/main-timers'
-    },
-    {
-      name: 'more timers',
-      url: '/menu/main-timers'
-    }
-  ];
+  paginas: Page[];
 
   selectedPath = '';
 
@@ -27,7 +19,8 @@ export class MenuPage implements OnInit {
     });
   }
 
-  ngOnInit() {
+  ngOnInit( ) {
+
   }
 
 }
