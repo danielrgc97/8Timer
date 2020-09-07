@@ -4,7 +4,7 @@ import { CajasService } from './cajas.service';
 import { AlertController } from '@ionic/angular';
 import {CdkDragDrop, CdkDragMove} from '@angular/cdk/drag-drop';
 
-import {Howl, Howler} from 'howler';
+import {Howl} from 'howler';
 
 
 @Component({

@@ -9,35 +9,29 @@ const { Storage } = Plugins;
 })
 export class PaginasService {
 
-  paginas: Page[];
+  paginas: Page[] = [];
+  thePage: Page;
 
-  constructor() {
-    this.paginas = [
-      {
-        id: 0,
-        name: 'default',
-        playPage: false,
-        dictadoNombres: false
-      },
-      {
-        id: 1,
-        name: 'monday',
-        playPage: false,
-        dictadoNombres: false
-      }
-    ];
-  }
+  constructor() {}
 
-  getAllCajas(){
+  getAllPages(){
     return [...this.paginas];
   }
 
-  volcarPages(cs: Page[]){
+  volcarPages(ps: Page[]){
     this.paginas = [];
-    for ( let i = 0 ; i < cs.length ; i++){
-      this.paginas[i] = cs[i];
+    for ( let i = 0 ; i < ps.length ; i++){
+      this.paginas[i] = ps[i];
     }
     this.setObjects();
+  }
+
+  setThePage(id: number) {
+    this.thePage = this.paginas[id];
+  }
+
+  getThePage() {
+    return [this.thePage];
   }
 
   // Funciones gestion de almacenamiento
@@ -48,6 +42,7 @@ export class PaginasService {
     if ( j != null){
       for ( let i = 0 ; i < j.length ; i++){
         this.paginas[i] = j[i];
+        console.log(j[i]);
       }
     }
     return s;

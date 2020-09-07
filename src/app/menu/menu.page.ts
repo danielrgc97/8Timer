@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterEvent } from '@angular/router';
 import { Page } from './page.model';
+import { PaginasService } from './paginas.service';
+
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-menu',
@@ -11,16 +14,54 @@ export class MenuPage implements OnInit {
 
   paginas: Page[];
 
-  selectedPath = '';
 
-  constructor(private router: Router) {
-    this.router.events.subscribe((event: RouterEvent) => {
-      this.selectedPath = event.url;
-    });
-  }
+  constructor( public alertController: AlertController, private router: Router, private paginasService: PaginasService) {}
 
   ngOnInit( ) {
+    this.paginasService.getObjects().then( _ => {
+      this.paginas = this.paginasService.getAllPages();
+    });
 
   }
+
+  addPage(name: string) {
+    this.paginas.push({
+      id: this.paginas.length,
+      name,
+      playPage: false,
+      dictadoNombres: false
+    });
+
+    this.paginasService.volcarPages(this.paginas);
+  }
+
+  async createPageAlert(){
+    const alert = await this.alertController.create({
+      header: 'Creating a timer',
+      inputs: [
+        {
+          name: 'name',
+          type: 'text',
+          placeholder: 'Name'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        },
+        {
+          text: 'Create',
+          handler: (data) => {
+            this.addPage(data.name);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+
 
 }

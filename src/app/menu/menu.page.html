@@ -1,27 +1,32 @@
 <!-- <ion-split-pane> -->
   <ion-menu contentId="content">
     <ion-header>
-      <ion-toolbar>
+      <!-- <ion-toolbar>
         <div >
           <ion-title mode=ios>
             <ion-icon class="topIcon" src="../../assets/icon/white-over-black.svg"> </ion-icon>
           </ion-title>
         </div>
-      </ion-toolbar>
+      </ion-toolbar> -->
     </ion-header>
 
 
     <ion-content>
 
-    
+      <ion-item class="menu1">
+        <ion-icon name="documents" color="primary"></ion-icon> <div class="myPages">My pages</div> 
+      </ion-item>
 
       <ion-list>
-        <!-- <ion-menu-toggle autohide="false" *ngFor="let o of options">
-          <ion-item [routerLink]="o.url" routerDirection="root">
-            
+        <ion-menu-toggle autohide="false" *ngFor="let p of paginas">
+          <ion-item [routerLink]="" routerDirection="root" (click)="addPage()">
+            {{p.name}}
           </ion-item>
-        </ion-menu-toggle> -->
+        </ion-menu-toggle>
       </ion-list>
+
+      <ion-button fill="clear" (click)="createPageAlert()">Add new page<ion-icon name="add" color="primary"></ion-icon></ion-button>
+
     </ion-content>
   </ion-menu>
 
