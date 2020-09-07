@@ -62,6 +62,9 @@ export class MenuPage implements OnInit {
     await alert.present();
   }
 
+  pageSelected(id: number) {
+    this.paginasService.setThePage(id);
+  }
 
 
 }
