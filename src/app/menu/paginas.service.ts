@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Page } from './page.model';
 
 import { Plugins} from '@capacitor/core';
+import { Subscription } from 'rxjs';
 const { Storage } = Plugins;
 
 @Injectable({
@@ -12,7 +13,17 @@ export class PaginasService {
   paginas: Page[] = [];
   thePage: Page;
 
-  constructor() {}
+
+
+  invokeNgOnInit = new EventEmitter();
+  subsVar: Subscription;
+
+  constructor() { }
+
+  invoking() {
+    this.invokeNgOnInit.emit();
+  }
+
 
   getAllPages(){
     return [...this.paginas];
@@ -28,10 +39,11 @@ export class PaginasService {
 
   setThePage(id: number) {
     this.thePage = this.paginas[id];
+    console.log(this.thePage.name);
   }
 
   getThePage() {
-    return [this.thePage];
+    return this.thePage;
   }
 
   // Funciones gestion de almacenamiento
@@ -42,9 +54,9 @@ export class PaginasService {
     if ( j != null){
       for ( let i = 0 ; i < j.length ; i++){
         this.paginas[i] = j[i];
-        console.log(j[i]);
       }
     }
+    if (this.thePage === undefined) { this.thePage = this.paginas[0]; }
     return s;
   }
 

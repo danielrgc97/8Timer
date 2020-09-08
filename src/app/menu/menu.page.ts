@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, RouterEvent } from '@angular/router';
 import { Page } from './page.model';
 import { PaginasService } from './paginas.service';
 
 import { AlertController } from '@ionic/angular';
+import { MainTimersPage } from '../main-timers/main-timers.page';
 
 @Component({
   selector: 'app-menu',
@@ -21,7 +22,6 @@ export class MenuPage implements OnInit {
     this.paginasService.getObjects().then( _ => {
       this.paginas = this.paginasService.getAllPages();
     });
-
   }
 
   addPage(name: string) {
@@ -62,8 +62,12 @@ export class MenuPage implements OnInit {
     await alert.present();
   }
 
+
   pageSelected(id: number) {
     this.paginasService.setThePage(id);
+    this.paginasService.invoking();
+    
+    console.log(this.paginas[id].name);
   }
 
 

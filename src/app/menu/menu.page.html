@@ -19,7 +19,7 @@
 
       <ion-list>
         <ion-menu-toggle autohide="false" *ngFor="let p of paginas">
-          <ion-item [routerLink]="" routerDirection="root" (click)="pageSelected(p.id)">
+          <ion-item [routerLink]="'/menu/main-timers'" routerDirection="root" (click)="pageSelected(p.id)">
             {{p.name}}
           </ion-item>
         </ion-menu-toggle>

@@ -4,7 +4,10 @@ import { CajasService } from './cajas.service';
 import { AlertController } from '@ionic/angular';
 import {CdkDragDrop, CdkDragMove} from '@angular/cdk/drag-drop';
 
+
+import { PaginasService } from '../menu/paginas.service';
 import {Howl} from 'howler';
+import { Router, NavigationEnd } from '@angular/router';
 
 
 @Component({
@@ -17,11 +20,21 @@ export class MainTimersPage implements OnInit {
   cajas: Caja[];
   playPage = false;
 
-  constructor( public alertController: AlertController, private cajasService: CajasService) {}
+  constructor( private router: Router , public alertController: AlertController,
+               private cajasService: CajasService, private paginasService: PaginasService) {}
 
   ngOnInit() {
-    this.cajasService.getObjects().then( _ => {
+    if (this.paginasService.subsVar === undefined) {
+      this.paginasService.subsVar = this.paginasService.
+      invokeNgOnInit.subscribe((name: string) => {
+        this.ngOnInit();
+      });
+    }
+    this.cajas = [];
+    this.paginasService.getObjects().then(_ => {
+    this.cajasService.getObjects().then( __ => {
       this.cajas = this.cajasService.getAllCajas();
+    });
     });
   }
 

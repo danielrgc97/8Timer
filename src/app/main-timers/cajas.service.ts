@@ -2,15 +2,19 @@ import { Injectable } from '@angular/core';
 import { Caja } from './caja.model';
 
 import { Plugins} from '@capacitor/core';
+import { PaginasService } from '../menu/paginas.service';
+import { Page } from '../menu/page.model';
 const { Storage } = Plugins;
 
 @Injectable({
   providedIn: 'root'
 })
 export class CajasService {
+
+  thePage: Page;
   cajas: Caja[] = [];
 
-  constructor() {}
+  constructor(private paginasService: PaginasService) {}
 
   // Funciones de la logica de servicio cajas
 
@@ -29,24 +33,30 @@ export class CajasService {
   // Funciones gestion de almacenamiento
 
   async getObjects() {
-    const s = await Storage.get({ key: '8Timer' });
-    const j = JSON.parse(s.value);
-    if ( j != null){
-      for ( let i = 0 ; i < j.length ; i++){
-        this.cajas[i] = j[i];
+    this.thePage = this.paginasService.getThePage();
+    if (this.thePage !== undefined) {
+      console.log('@@' + this.thePage.name);
+      const s = await Storage.get({ key: this.thePage.name });
+      const j = JSON.parse(s.value);
+      this.cajas = [];
+      if ( j != null){
+        for ( let i = 0 ; i < j.length ; i++){
+          this.cajas[i] = j[i];
+        }
+        return s;
       }
     }
-    return s;
   }
 
   async setObjects() {
+    this.thePage = this.paginasService.getThePage();
     const j = [];
     if ( this.cajas != null){
       for ( let i = 0 ; i < this.cajas.length ; i++){
         j[i] = this.cajas[i];
       }
     }
-    await Storage.set({key: '8Timer', value: JSON.stringify(j)
+    await Storage.set({key: this.thePage.name, value: JSON.stringify(j)
     });
   }
 }
