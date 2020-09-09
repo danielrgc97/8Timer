@@ -35,7 +35,6 @@ export class CajasService {
   async getObjects() {
     this.thePage = this.paginasService.getThePage();
     if (this.thePage !== undefined) {
-      console.log('@@' + this.thePage.name);
       const s = await Storage.get({ key: this.thePage.name });
       const j = JSON.parse(s.value);
       this.cajas = [];

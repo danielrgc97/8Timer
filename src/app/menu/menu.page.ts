@@ -66,8 +66,6 @@ export class MenuPage implements OnInit {
   pageSelected(id: number) {
     this.paginasService.setThePage(id);
     this.paginasService.invoking();
-    
-    console.log(this.paginas[id].name);
   }
 
 

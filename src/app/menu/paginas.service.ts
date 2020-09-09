@@ -39,7 +39,6 @@ export class PaginasService {
 
   setThePage(id: number) {
     this.thePage = this.paginas[id];
-    console.log(this.thePage.name);
   }
 
   getThePage() {

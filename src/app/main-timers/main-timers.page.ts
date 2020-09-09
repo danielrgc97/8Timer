@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Caja } from './caja.model';
 import { CajasService } from './cajas.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController, PopoverController } from '@ionic/angular';
 import {CdkDragDrop, CdkDragMove} from '@angular/cdk/drag-drop';
 
 
 import { PaginasService } from '../menu/paginas.service';
 import {Howl} from 'howler';
 import { Router, NavigationEnd } from '@angular/router';
+import { SettingsPopoverComponent } from './settings-popover/settings-popover.component';
 
 
 @Component({
@@ -21,7 +22,8 @@ export class MainTimersPage implements OnInit {
   playPage = false;
 
   constructor( private router: Router , public alertController: AlertController,
-               private cajasService: CajasService, private paginasService: PaginasService) {}
+               private cajasService: CajasService, private paginasService: PaginasService,
+               private popoverController: PopoverController) {}
 
   ngOnInit() {
     if (this.paginasService.subsVar === undefined) {
@@ -30,13 +32,25 @@ export class MainTimersPage implements OnInit {
         this.ngOnInit();
       });
     }
-    this.cajas = [];
+
     this.paginasService.getObjects().then(_ => {
     this.cajasService.getObjects().then( __ => {
       this.cajas = this.cajasService.getAllCajas();
     });
     });
   }
+
+  async settingsPopover(ev: any) {
+    const popover = await this.popoverController.create({
+      component: SettingsPopoverComponent,
+      cssClass: 'my-custom-class',
+      event: ev,
+      translucent: true
+    });
+    return await popover.present();
+  }
+
+
 
   // Alerts
   async createCajaTimerAlert(){
@@ -484,6 +498,7 @@ export class MainTimersPage implements OnInit {
       if ( this.cajas[id].counting === true ){
         this.pause(id);
       } else{
+        const saveCountingValue = this.cajas[id].countingValue;
         if (this.playPage === true) {
           for (const c of this.cajas) {
             this.reset(c.id);
@@ -493,6 +508,7 @@ export class MainTimersPage implements OnInit {
         for (const t of timersToReset) {
           this.reset(t.id);
         }
+        this.cajas[id].countingValue = saveCountingValue;
         this.play(id);
       }
 

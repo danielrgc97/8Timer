@@ -1,13 +1,14 @@
 <ion-header >
   <ion-toolbar color="primary">
-    <div >
-      <ion-button slot="start" fill="clear" >
-        <ion-menu-button color="light"></ion-menu-button>
-      </ion-button>
-      <ion-title mode=ios>
-        <ion-icon class="topIcon" src="../../assets/icon/white-over-black.svg"> </ion-icon>
-      </ion-title>
-    </div>
+    <ion-button slot="start" fill="clear" >
+      <ion-menu-button color="light"></ion-menu-button>
+    </ion-button>
+    <ion-title mode=ios>
+      <ion-icon class="topIcon" src="../../assets/icon/white-over-black.svg"> </ion-icon>
+    </ion-title>
+    <ion-button slot="end" fill="clear" (click)="settingsPopover($event)">
+      <ion-icon color="light" name="ellipsis-vertical"></ion-icon>
+    </ion-button>
   </ion-toolbar>
 </ion-header>
 
