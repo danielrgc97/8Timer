@@ -75,7 +75,8 @@ export class PaginasService {
       }
     }
     if (this.paginas[0] === undefined) {
-      this.paginas.push({ id: 0, name: 'Default', playpage: false, speech: false, timeleft: 0, stringDisplayed: '' });
+      this.paginas.push({ id: 0, name: 'Default', playpage: false, speech: false, laps: 1,
+      countingLaps: 1, timeleft: 0, stringDisplayed: '' });
       this.setObjects();
     }
     if (this.thePage === undefined) { this.thePage = 0; }

@@ -513,21 +513,54 @@ export class MainTimersPage implements OnInit {
       const circuit = this.cajas[this.cajas.findIndex(caja => caja.groupId === timer.groupId)];
 
       let idToPlay = id + 1;
+      
+      // caso timer standalone
       if (timer.circuitState === 0) { idToPlay = -1; }
-
-      if (timer.circuitState === 3 && circuit.circuitDoingLap === circuit.circuitLaps) {
+      // caso reproduce circuito
+      if (timer.circuitState === 3 && circuit.circuitDoingLap >= circuit.circuitLaps) {
         idToPlay = -1;
         this.cajas[circuit.id].circuitDoingLap = 1;
       } else if (timer.circuitState === 3) {
         idToPlay = circuit.id + 1;
         ++this.cajas[circuit.id].circuitDoingLap;
       }
-
-      if (idToPlay === -1) {
-
+      // caso acabar pagina
+      console.log(this.cajas[id].id, (this.cajas.length - 1));
+      if (this.cajas[id].id === (this.cajas.length - 1)) {
+        // caso reproducir pagina de nuevo
+        if (this.thePage.countingLaps < this.thePage.laps) {
+          if (this.cajas[0].type === 'circuit') {
+            let i = 0;
+            while (this.cajas[i].type !== 'timer' || i > this.cajas.length) {
+              i++;
+            }
+            idToPlay = i;
+          } else {
+            idToPlay = 0;
+          }
+        }
       } else {
+        // caso reproducir siguiente grupo
+        if (idToPlay === -1 && this.thePage.playpage === true) {
+          if (this.cajas[id + 1].type === 'circuit') {
+            let i = id + 1;
+            while (this.cajas[i].type !== 'timer' || i > this.cajas.length) {
+              i++;
+            }
+            if (i > this.cajas.length) {i = -1; }
+            idToPlay = i;
+          } else {
+            idToPlay = id + 1;
+          }
+        }
+      }
+
+
+      if (idToPlay !== -1) {
         this.play(idToPlay);
       }
+
+
     }
   }
 

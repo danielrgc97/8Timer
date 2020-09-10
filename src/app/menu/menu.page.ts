@@ -42,6 +42,8 @@ export class MenuPage implements OnInit {
       name,
       playpage: false,
       speech: false,
+      laps: 1,
+      countingLaps: 1,
       timeleft: 0,
       stringDisplayed: ''
     });

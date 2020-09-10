@@ -48,7 +48,6 @@ export class CajasService {
 
   async setObjects() {
     this.thePage = this.paginasService.getThePage();
-    console.log('halooooooooooooo');
     const j = [];
     if ( this.cajas != null){
       for ( let i = 0 ; i < this.cajas.length ; i++){
