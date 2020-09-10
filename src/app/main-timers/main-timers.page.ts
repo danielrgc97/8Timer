@@ -20,11 +20,12 @@ import { Page } from '../menu/page.model';
 export class MainTimersPage implements OnInit {
 
   cajas: Caja[];
+  playpage = null;
   thePage: Page;
 
   constructor( private router: Router , public alertController: AlertController,
                private cajasService: CajasService, private paginasService: PaginasService,
-               private popoverController: PopoverController) {}
+               private popoverController: PopoverController) { }
 
   ngOnInit() {
     if (this.paginasService.subsMain === undefined) {
@@ -38,6 +39,7 @@ export class MainTimersPage implements OnInit {
       this.cajasService.getObjects().then( __ => {
         this.cajas = this.cajasService.getAllCajas();
         this.thePage = this.paginasService.getThePage();
+        this.playpage = this.thePage.playpage;
       });
     });
   }

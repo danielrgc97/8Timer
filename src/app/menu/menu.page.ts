@@ -41,7 +41,9 @@ export class MenuPage implements OnInit {
       id: newId,
       name,
       playpage: false,
-      speech: false
+      speech: false,
+      timeleft: 0,
+      stringDisplayed: ''
     });
     this.paginasService.setThePage(newId);
     this.paginasService.volcarPages(this.paginas);

@@ -74,7 +74,10 @@ export class PaginasService {
         this.paginas[i] = j[i];
       }
     }
-    if (this.paginas[0] === undefined) {this.paginas.push({ id: 0, name: 'Default', playpage: false, speech: false}); this.setObjects(); }
+    if (this.paginas[0] === undefined) {
+      this.paginas.push({ id: 0, name: 'Default', playpage: false, speech: false, timeleft: 0, stringDisplayed: '' });
+      this.setObjects();
+    }
     if (this.thePage === undefined) { this.thePage = 0; }
     return s;
   }

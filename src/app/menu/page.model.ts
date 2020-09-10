@@ -3,4 +3,6 @@ export interface Page {
     name: string;
     playpage: boolean;
     speech: boolean;
+    timeleft: number;
+    stringDisplayed: string;
 }
