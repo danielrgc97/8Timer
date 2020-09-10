@@ -19,7 +19,12 @@
   <div *ngIf="playpage === true" class="invisiblePlaypageBackBlock"></div>
   <div *ngIf="playpage === true" class="playpageContainer" slot="fixed">
     <div class = "pageName"> {{thePage.name}}</div>
-    <div class = "totalTimeLeft"> Total time left: 1:00:59 </div>
+    <div class = "totalTimeLeft"> Time left: 1:00:59 </div>
+    <div class="playpageButtons">
+      <ion-button color="light" fill="clear" size="small" (click)="controller( 0, 1)"><ion-icon class="caja-buttons" [name]="true ? 'play-outline' : 'pause-outline'"></ion-icon></ion-button>
+      <ion-button color="light" fill="clear" size="small" (click)="resetPage()"><ion-icon class="caja-buttons" name="refresh-outline"></ion-icon></ion-button>
+    </div>
+    <div class = "playpageLaps">Lap 1 of 1</div>
   </div>
 
   
@@ -49,6 +54,7 @@
         <span class="circuitLaps"> {{c.circuitDoingLap}} of {{c.circuitLaps}} Laps </span>
         <ion-button class="buttonCajaCircuitEdit" fill="clear" (click)="editCajaCircuitAlert(i)"></ion-button>
         <ion-button class='flechaCircuit' fill="clear" size="small" (click)="circuitHideShowGroup(i)"><ion-icon color="light" [name]="c.circuitState===10 ? 'chevron-forward-outline' : 'chevron-down-outline'"></ion-icon></ion-button>
+        <ion-button class="resetCircuit" color="light" fill="clear" size="small" (click)="resetGroup(c.groupId)"><ion-icon class="caja-buttons" name="refresh-outline"></ion-icon></ion-button>
       </div>
 
     <!--  -->

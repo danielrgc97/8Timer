@@ -33,19 +33,33 @@ ion-content {
 }
 .pageName{
   position: absolute;
-  left: 12%;
+  left: 10%;
   top: 9px;
   color: var(--ion-color-light);
+  font-size: 20px;
 }
-
 .totalTimeLeft {
   position: absolute;
-  left: 12%;
-  top: 40px;
+  left: 10%;
+  top: 45px;
   color: var(--ion-color-light);
-
 }
-
+.playpageButtons{
+  position: absolute;
+  width: 45%;
+  right: 0%;
+  text-align: center;
+  top: 5px;
+  color: var(--ion-color-light);
+}
+.playpageLaps{
+  position: absolute;
+  width: 45%;
+  right: 0%;
+  text-align: center;
+  top: 45px;
+  color: var(--ion-color-light);
+}
 
 // List
 
@@ -87,9 +101,16 @@ ion-content {
 }
 .circuitLaps {
   position: absolute;
-  right: 10px;
+  right: 2%;
   top: 9px;
   color: var(--ion-color-light);
+}
+.resetCircuit{
+  position: absolute;
+  top: -2px;
+  right: 25%;
+  color: var(--ion-color-light);
+  
 }
   // Tipo caja 
 .timer{
