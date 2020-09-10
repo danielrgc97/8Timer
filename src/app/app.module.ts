@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import { File } from '@ionic-native/file/ngx';
+import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
 
 @NgModule({
   declarations: [AppComponent],
@@ -19,7 +20,8 @@ import { File } from '@ionic-native/file/ngx';
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    File
+    File,
+    TextToSpeech
   ],
   bootstrap: [AppComponent]
 })

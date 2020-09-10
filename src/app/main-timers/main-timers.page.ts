@@ -10,7 +10,7 @@ import {Howl} from 'howler';
 import { Router, NavigationEnd } from '@angular/router';
 import { SettingsPopoverComponent } from './settings-popover/settings-popover.component';
 import { Page } from '../menu/page.model';
-
+import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
 
 
 @Component({
@@ -26,7 +26,8 @@ export class MainTimersPage implements OnInit {
 
   constructor( private router: Router , public alertController: AlertController,
                private cajasService: CajasService, private paginasService: PaginasService,
-               private popoverController: PopoverController) { }
+               private popoverController: PopoverController,
+               private tts: TextToSpeech) { }
 
   ngOnInit() {
     if (this.paginasService.subsMain === undefined) {
@@ -270,7 +271,10 @@ export class MainTimersPage implements OnInit {
     const sound = new Howl({
       src: ['../../assets/beeps/beep-30b.mp3']
     });
-
+    if (this.thePage.speech === true && this.cajas[id].countingValue === this.cajas[id].timerValue) {
+      this.tts.speak(this.cajas[id].timerName);
+    }
+ 
     this.cajas[id].counting = true;
     --this.cajas[id].countingValue;
     this.displayStringFormer(id);
