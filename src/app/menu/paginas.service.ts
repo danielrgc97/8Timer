@@ -13,16 +13,20 @@ export class PaginasService {
   paginas: Page[] = [];
   thePage: number;
 
+  invokeMainNgOnInit = new EventEmitter();
+  subsMain: Subscription;
 
-
-  invokeNgOnInit = new EventEmitter();
-  subsVar: Subscription;
+  invokeMenuNgOnInit = new EventEmitter();
+  subsMenu: Subscription;
 
   constructor() { }
 
-  // Ivocacion de ngOnInit de la main
-  ngOnInitEventEmit() {
-    this.invokeNgOnInit.emit();
+  // Ivocacion de ngOnInits
+  mainNgOnInit() {
+    this.invokeMainNgOnInit.emit();
+  }
+  menuNgOnInit() {
+    this.invokeMenuNgOnInit.emit();
   }
 
   // Logica page
@@ -35,25 +39,28 @@ export class PaginasService {
       this.paginas[i] = ps[i];
     }
     this.setObjects();
-    this.ngOnInitEventEmit();
+    this.mainNgOnInit();
   }
   setThePage(id: number) {
     this.thePage = id;
-    this.ngOnInitEventEmit();
+    this.mainNgOnInit();
   }
   getThePage() {
     return this.paginas[this.thePage];
   }
   setPlayPage(bol: boolean) {
     this.paginas[this.thePage].playpage = bol;
+    this.volcarPages(this.paginas);
   }
   setSpeech(bol: boolean) {
     this.paginas[this.thePage].speech = bol;
     this.volcarPages(this.paginas);
   }
   deletePage(id: number){
+    this.setThePage(0);
     this.paginas.splice(id, 1);
     this.volcarPages(this.paginas);
+    this.menuNgOnInit();
   }
 
   // Funciones gestion de almacenamiento
@@ -62,6 +69,7 @@ export class PaginasService {
     const s = await Storage.get({ key: 'MenuPages' });
     const j = JSON.parse(s.value);
     if ( j != null){
+      this.paginas = [];
       for ( let i = 0 ; i < j.length ; i++){
         this.paginas[i] = j[i];
       }

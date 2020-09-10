@@ -22,12 +22,12 @@ export class MenuPage implements OnInit {
                private paginasService: PaginasService, private cajasService: CajasService) {}
 
   ngOnInit( ) {
-    // if (this.paginasService.subsVar === undefined) {
-    //   this.paginasService.subsVar = this.paginasService.
-    //   invokeNgOnInit.subscribe((name: string) => {
-    //     this.ngOnInit();
-    //   });
-    // }
+    if (this.paginasService.subsMenu === undefined) {
+      this.paginasService.subsMenu = this.paginasService.
+      invokeMenuNgOnInit.subscribe((name: string) => {
+        this.ngOnInit();
+      });
+    }
 
     this.paginasService.getObjects().then( _ => {
       this.paginas = this.paginasService.getAllPages();

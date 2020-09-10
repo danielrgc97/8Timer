@@ -27,9 +27,9 @@ export class MainTimersPage implements OnInit {
                private popoverController: PopoverController) {}
 
   ngOnInit() {
-    if (this.paginasService.subsVar === undefined) {
-      this.paginasService.subsVar = this.paginasService.
-      invokeNgOnInit.subscribe((name: string) => {
+    if (this.paginasService.subsMain === undefined) {
+      this.paginasService.subsMain = this.paginasService.
+      invokeMainNgOnInit.subscribe((name: string) => {
         this.ngOnInit();
       });
     }
@@ -533,9 +533,7 @@ export class MainTimersPage implements OnInit {
   async settingsPopover(ev: any) {
     const popover = await this.popoverController.create({
       component: SettingsPopoverComponent,
-      cssClass: 'my-custom-class',
-      event: ev,
-      translucent: true
+      event: ev
     });
     return await popover.present();
   }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PaginasService } from 'src/app/menu/paginas.service';
 import { Page } from 'src/app/menu/page.model';
+import { PopoverController } from '@ionic/angular';
 
 @Component({
   selector: 'app-settings-popover',
@@ -11,7 +12,7 @@ export class SettingsPopoverComponent implements OnInit {
 
   thePage: Page;
 
-  constructor(private paginasService: PaginasService) {
+  constructor(private popoverController: PopoverController, private paginasService: PaginasService) {
     this.paginasService.getObjects().then(_ => {
       this.thePage = this.paginasService.getThePage();
     }); }
@@ -33,6 +34,11 @@ export class SettingsPopoverComponent implements OnInit {
 
   deletePage() {
     this.paginasService.deletePage(this.thePage.id);
+    this.dismissClick();
+  }
+
+  async dismissClick() {
+    await this.popoverController.dismiss();
   }
 
 
