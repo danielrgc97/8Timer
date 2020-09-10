@@ -299,7 +299,7 @@ export class MainTimersPage implements OnInit {
     let gId;
     if ( this.cajas.length !== 0) {
       c = this.cajas[this.cajas.length - 1];
-      if (type === 'timer' && c.circuitState !== 0 && c.circuitState !== 10 && c.type !== 'timerHide' ) {
+      if (type === 'timer' && c.circuitState !== 0 && c.circuitState !== 10 && c.role !== 'timerHide' ) {
         gId = c.groupId; cSte = 1;
       } else {
         gId = c.groupId + 1;
@@ -309,6 +309,7 @@ export class MainTimersPage implements OnInit {
     }
     this.cajas.push({
       type,
+      role: type,
       groupId: gId,
       display: true,
       enabled: true,
@@ -382,7 +383,6 @@ export class MainTimersPage implements OnInit {
     }
     this.cajas[toId] = tempCaja;
     // this.cajas[toId].id = toId;
-    // this.orderEverythingAndSave();
   }
   displayStringFormer(id: number){
     if (this.cajas[id].countingValue !== null){
@@ -411,13 +411,13 @@ export class MainTimersPage implements OnInit {
       this.changeCircuitState(id, 10);
       const cajasToHide = this.cajas.filter(caja => caja.groupId === this.cajas[id].groupId && caja.type === 'timer');
       for ( const c of cajasToHide) {
-        this.cajas[c.id].type = 'timerHide';
+        this.cajas[c.id].role = 'timerHide';
       }
     } else {
       this.changeCircuitState(id, 11);
-      const cajasToShow = this.cajas.filter(caja => caja.groupId === this.cajas[id].groupId && caja.type === 'timerHide');
+      const cajasToShow = this.cajas.filter(caja => caja.groupId === this.cajas[id].groupId && caja.role === 'timerHide');
       for ( const c of cajasToShow) {
-        this.cajas[c.id].type = 'timer';
+        this.cajas[c.id].role = 'timer';
       }
     }
     this.magic();

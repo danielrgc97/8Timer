@@ -27,10 +27,10 @@
   
   <div cdkDropList class="list" (cdkDropListDropped)="drop($event)">
     <!-- Lista con 2 tipos elementos -->
-    <div *ngFor="let c of cajas;let i = index; let last = last" class="{{c.type}}" cdkDrag (cdkDragStarted)="drag(i)" [cdkDragStartDelay]="300" >
+    <div *ngFor="let c of cajas;let i = index; let last = last" class="{{c.role}}" cdkDrag (cdkDragStarted)="drag(i)" [cdkDragStartDelay]="300" >
 
       <!-- Tipo cajas activadas -->
-      <div *ngIf="c.type==='timer'">
+      <div *ngIf="c.role==='timer'">
         <ion-icon *ngIf="c.circuitState === 3 && c.circuitPos === 2" class="circuitIcon" src="../../assets/icon/circuit-using/alone.svg"></ion-icon>
         <ion-icon *ngIf="c.circuitState === 1" class="circuitIcon" src="../../assets/icon/circuit-using/start.svg"></ion-icon>
         <ion-icon *ngIf="c.circuitState === 2" class="circuitIcon" src="../../assets/icon/circuit-using/middle.svg"></ion-icon>
@@ -45,7 +45,7 @@
       </div>
 
       <!-- Tipo circuito activado -->
-      <div *ngIf="c.type==='circuit'" >
+      <div *ngIf="c.role==='circuit'" >
         <span class="circuitNombre" >{{c.circuitName}}</span>
         <span class="circuitLaps"> {{c.circuitDoingLap}} of {{c.circuitLaps}} Laps </span>
         <ion-button class="buttonCajaCircuitEdit" fill="clear" (click)="editCajaCircuitAlert(i)"></ion-button>

@@ -4,6 +4,7 @@ export interface Caja{
     // Propiedades globales para cualquier tipo
     id: number;
     type: string;
+    role: string;
     groupId: number;
     circuitState: number;
     display: boolean;
