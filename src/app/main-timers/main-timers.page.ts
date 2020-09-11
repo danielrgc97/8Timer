@@ -13,6 +13,9 @@ import { Page } from '../menu/page.model';
 import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
 
 
+import Speech from 'speak-tts';
+
+
 @Component({
   selector: 'app-main-timers',
   templateUrl: './main-timers.page.html',
@@ -23,11 +26,17 @@ export class MainTimersPage implements OnInit {
   cajas: Caja[];
   playpage = null;
   thePage: Page;
+  private speech: any;
+  
 
   constructor( private router: Router , public alertController: AlertController,
                private cajasService: CajasService, private paginasService: PaginasService,
                private popoverController: PopoverController,
-               private tts: TextToSpeech) { }
+               private tts: TextToSpeech) {
+                  this.speech = new Speech();
+                  this.speech.init();
+                  this.speech.setLanguage('en-US');
+                }
 
   ngOnInit() {
     if (this.paginasService.subsMain === undefined) {
@@ -268,18 +277,23 @@ export class MainTimersPage implements OnInit {
     }
   }
   play(id: number){
+    this.speech.cancel();
     const sound = new Howl({
       src: ['../../assets/beeps/beep-30b.mp3']
     });
     if (this.thePage.speech === true && this.cajas[id].countingValue === this.cajas[id].timerValue) {
-      this.tts.speak(this.cajas[id].timerName);
+      // this.tts.speak(this.cajas[id].timerName);
+      this.speech.speak({ text: this.cajas[id].timerName, });
     }
- 
+    // this.timeLeft(id);
+
     this.cajas[id].counting = true;
     --this.cajas[id].countingValue;
+    // --this.thePage.timeleft;
     this.displayStringFormer(id);
     this.cajas[id].interval = setInterval(() => {
       --this.cajas[id].countingValue;
+      // --this.thePage.timeleft;
       this.displayStringFormer(id);
       if ( this.cajas[id].countingValue < 0){
         this.controller(id, 0);
@@ -355,18 +369,16 @@ export class MainTimersPage implements OnInit {
   drop(event: CdkDragDrop<string[]>) {
     if (this.cajas[event.previousIndex].type === 'timer') {
       this.moveCajas(event.previousIndex, event.currentIndex);
-
       if ( event.currentIndex > 0 ) {
         const a = this.cajas[event.currentIndex - 1];
         if (a.circuitState === 3 || a.circuitState === 2 || a.circuitState === 1 || a.circuitState === 11) {
-         this.cajas[event.currentIndex].groupId = a.groupId;
+          this.cajas[event.currentIndex].groupId = a.groupId;
         } else {
           this.cajas[event.currentIndex].groupId = 999;
         }
       } else {
         this.cajas[event.currentIndex].groupId = 999;
       }
-
     } else {
       if (event.previousIndex > event.currentIndex) {
         let posToMove = event.currentIndex;
@@ -381,6 +393,7 @@ export class MainTimersPage implements OnInit {
         }
       }
     }
+
     this.magic();
   }
   drag(id: number) {
@@ -503,7 +516,6 @@ export class MainTimersPage implements OnInit {
     this.cajasService.volcarCajas(this.cajas);
     // orderEverythingAndSave
   }
-
   controller(id: number, flag: number) { // Es llapada al empezar y acabar un timer
     if ( flag === 1 ) {
 
@@ -571,6 +583,30 @@ export class MainTimersPage implements OnInit {
 
     }
   }
+  // timeLeft(id: number) {
+  //   let time = 0;
+  //   for (let i = this.cajas[id].groupId; i <= this.cajas[this.cajas.length - 1].groupId; i++) {
+  //     let tam = 0;
+  //     for (const c of this.cajas) {
+  //       if (c.groupId === i) { tam++; }
+  //     }
+
+
+      
+  //     const lastId = this.cajas.filter(caja => caja.groupId === i && caja.circuitState === 3)[0].id;
+  //     let j = this.cajas[id].circuitDoingLap;
+  //     let k = id;
+  //     for ( j; j <= this.cajas[id].circuitLaps; j++) {
+  //       for (k; k <= lastId; k++) {
+  //         time = time + this.cajas[k].countingValue;
+  //         console.log('c' + time);
+  //       }
+  //       k = this.cajas.filter(caja => caja.groupId === i && caja.circuitPos === 2)[0].id;
+  //     }
+      
+  //   }
+  //   this.thePage.timeleft = time;
+  // }
 
   // Page settings
   async settingsPopover(ev: any) {
