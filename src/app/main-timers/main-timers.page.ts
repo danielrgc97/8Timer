@@ -285,8 +285,6 @@ export class MainTimersPage implements OnInit {
       // this.tts.speak(this.cajas[id].timerName);
       this.speech.speak({ text: this.cajas[id].timerName, });
     }
-    // this.timeLeft(id);
-
     this.cajas[id].counting = true;
     --this.cajas[id].countingValue;
     // --this.thePage.timeleft;
@@ -534,6 +532,7 @@ export class MainTimersPage implements OnInit {
         }
         this.cajas[id].countingValue = saveCountingValue;
         this.play(id);
+        this.timeLeft(id);
       }
 
     } else {
@@ -607,6 +606,36 @@ export class MainTimersPage implements OnInit {
   //   }
   //   this.thePage.timeleft = time;
   // }
+
+  timeLeft(id: number) {
+    let time = 0;
+    let j = 1;
+    let k = 1;
+    for (let i = this.cajas[id].groupId; i <= this.cajas[this.cajas.length - 1].groupId; i++) {
+      let tam = 0;
+      for (const c of this.cajas) {
+        if (c.groupId === i) { tam++; }
+      }
+      console.log('tam' + tam);
+      if (tam === 1) {
+        const cajaId = this.cajas.findIndex(caja => caja.groupId === i );
+        if (this.cajas[cajaId].type === 'timer') {time = time + this.cajas[cajaId].countingValue; }
+        console.log('alone' + time);
+      }
+      if (tam > 1) {
+        const lastId = this.cajas.findIndex(caja => caja.groupId === i && caja.circuitState === 3);
+        for ( j; j <= this.cajas[id].circuitLaps; j++) {
+          for (k; k <= lastId; k++) {
+            time = time + this.cajas[k].countingValue;
+            console.log('group' + time);
+          }
+          k = this.cajas.findIndex(caja => caja.groupId === i && caja.circuitPos === 2);
+        }
+        j = 1;
+      }
+    }
+    this.thePage.timeleft = time;
+  }
 
   // Page settings
   async settingsPopover(ev: any) {
