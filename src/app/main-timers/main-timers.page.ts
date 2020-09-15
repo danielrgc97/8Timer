@@ -27,7 +27,7 @@ export class MainTimersPage implements OnInit {
   playpage = null;
   thePage: Page;
   private speech: any;
-  
+
 
   constructor( private router: Router , public alertController: AlertController,
                private cajasService: CajasService, private paginasService: PaginasService,
@@ -270,7 +270,7 @@ export class MainTimersPage implements OnInit {
 
   // Timer controls
   playpause(id: number){
-    if ( this.cajas[id].counting === true ){ 
+    if ( this.cajas[id].counting === true ){
       this.pause(id);
     } else{
       this.play(id);
@@ -593,24 +593,31 @@ export class MainTimersPage implements OnInit {
       }
       if (tam === 1) {
         const cajaId = this.cajas.findIndex(caja => caja.groupId === i );
-        if (this.cajas[cajaId].type === 'timer') {time = time + this.cajas[cajaId].countingValue; }
-        console.log('alone' + time);
+        if (this.cajas[cajaId].type === 'timer') {time = time + this.cajas[k].countingValue; }
+        console.log(i, j, k, 'alone', time);
 
+
+        // k = this.cajas.findIndex(caja => caja.groupId === i + 1 && caja.circuitPos === 2);
         k++;
         while (this.cajas[k].type !== 'timer' || k >= this.cajas.length) {
           k++;
         }
+
       }
       if (tam > 1) {
         const lastId = this.cajas.findIndex(caja => caja.groupId === i && caja.circuitState === 3);
         for ( j; j <= this.cajas[this.cajas.findIndex(caja => caja.groupId === i && caja.circuitPos === 1)].circuitLaps; j++) {
           for (k; k <= lastId; k++) {
             time = time + this.cajas[k].countingValue;
-            console.log(k + 'group' + time);
+            console.log(i, j, k, 'group', time);
           }
           k = this.cajas.findIndex(caja => caja.groupId === i && caja.circuitPos === 2);
         }
         j = 1;
+        k++;
+        while (this.cajas[k].type !== 'timer' || k >= this.cajas.length) {
+          k++;
+        }
       }
     }
     this.thePage.timeleft = time;
