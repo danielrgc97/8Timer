@@ -260,6 +260,34 @@ export class MainTimersPage implements OnInit {
 
     await alert.present();
   }
+  async editPageLapsAlert(){
+    const alert = await this.alertController.create({
+      header: 'Page laps',
+      inputs: [
+        {
+          name: 'laps',
+          type: 'number',
+          placeholder: 'Laps: ' + this.thePage.laps,
+        }
+      ],
+      buttons: [
+        {
+          text: 'Confirm',
+          handler: (data) => {
+            if (data.laps > 99 || data.hours < 0) {
+              this.createCajaTimerAlert();
+              this.basicAlert('Wrong values');
+            } else {
+              if ( data.lasp === '') {data.laps = this.thePage.laps; }
+              this.paginasService.setLaps(data.laps);
+            }
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
   async basicAlert(message: string){
 
     const alert = await this.alertController.create({

@@ -56,6 +56,10 @@ export class PaginasService {
     this.paginas[this.thePage].speech = bol;
     this.volcarPages(this.paginas);
   }
+  setLaps( laps: number) {
+    this.paginas[this.thePage].laps = laps;
+    this.volcarPages(this.paginas);
+  }
   deletePage(id: number){
     this.setThePage(0);
     this.paginas.splice(id, 1);
