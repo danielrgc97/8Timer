@@ -616,8 +616,8 @@ export class MainTimersPage implements OnInit {
 
       // Calcula estado
       if (timer.circuitState === 0 && this.thePage.playpage === true) { idToPlay = -1; }
-      if (timer.circuitState === 3 && circuit.circuitDoingLap >= circuit.circuitLaps  && this.thePage.playpage === true) {
-        idToPlay = -1;
+      if (timer.circuitState === 3 && circuit.circuitDoingLap >= circuit.circuitLaps) {
+        if ( this.thePage.playpage === true) {idToPlay = -1; }
         this.cajas[circuit.id].circuitDoingLap = 1;
       } else if (timer.circuitState === 3) {
         idToPlay = -3;
