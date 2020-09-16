@@ -414,39 +414,71 @@ export class MainTimersPage implements OnInit {
     this.magic();
   }
   drop(event: CdkDragDrop<string[]>) {
-    if (this.cajas[event.previousIndex].type === 'timer') {
-      this.moveCajas(event.previousIndex, event.currentIndex);
-      if ( event.currentIndex > 0 ) {
-        const a = this.cajas[event.currentIndex - 1];
-        if (a.circuitState === 3 || a.circuitState === 2 || a.circuitState === 1 || a.circuitState === 11) {
-          this.cajas[event.currentIndex].groupId = a.groupId;
+    const from = event.previousIndex;
+    let to = event.currentIndex;
+    if (event.currentIndex > event.previousIndex && this.cajas[event.currentIndex].circuitState === 10) {
+      to = this.cajas.findIndex(caja => caja.groupId === this.cajas[event.currentIndex].groupId && caja.circuitState === 3);
+    }
+    if (to > 0) {
+      if (event.currentIndex <= event.previousIndex && this.cajas[event.currentIndex - 1].circuitState === 10) {
+        to = this.cajas.findIndex(caja => caja.groupId === this.cajas[event.currentIndex - 1].groupId && caja.circuitState === 3);
+      }
+    }
+
+    if (to > from && (this.cajas[to].circuitState === 1 || this.cajas[to].circuitState === 2)) {
+      let newId = 900;
+      let i = to;
+      do{
+        this.cajas[ ++i ].groupId = newId++;
+      } while (this.cajas[i].circuitState !== 3);
+    }
+    if (to > 0) {
+      if (to <= from && (this.cajas[to - 1].circuitState === 1 || this.cajas[to - 1].circuitState === 2)) {
+        let newId = 900;
+        let i = to;
+        do{
+          this.cajas[ i++ ].groupId = newId++;
+        } while (this.cajas[i].circuitState !== 3);
+      }
+    }
+
+    if (this.cajas[from].type === 'timer') {
+
+      this.moveCajas(from, to);
+      if ( to > 0 ) {
+        const a = this.cajas[to - 1];
+        if ((a.circuitState === 3 || a.circuitState === 2 || a.circuitState === 1 || a.circuitState === 11) && a.role !== 'timerHide') {
+          this.cajas[to].groupId = a.groupId;
         } else {
-          this.cajas[event.currentIndex].groupId = 999;
+          this.cajas[to].groupId = 999;
         }
       } else {
-        this.cajas[event.currentIndex].groupId = 999;
+        this.cajas[to].groupId = 999;
       }
+
     } else {
-      if (event.previousIndex > event.currentIndex) {
-        let posToMove = event.currentIndex;
-        const cajasToMove = this.cajas.filter( caja => caja.groupId === this.cajas[event.previousIndex].groupId);
+
+      if (from > to) {
+        let posToMove = to;
+        const cajasToMove = this.cajas.filter( caja => caja.groupId === this.cajas[from].groupId);
         for (const c of cajasToMove) {
           this.moveCajas( c.id, posToMove++);
         }
       } else {
-        const numberOfCajasToMove = this.cajas.filter( caja => caja.groupId === this.cajas[event.previousIndex].groupId).length;
+        const numberOfCajasToMove = this.cajas.filter( caja => caja.groupId === this.cajas[from].groupId).length;
         for (let i = 0; i < numberOfCajasToMove; i++) {
-          this.moveCajas( event.previousIndex, event.currentIndex);
+          this.moveCajas( from, to);
         }
       }
+
     }
 
     this.magic();
   }
   drag(id: number) {
-    if (this.cajas[id].circuitState > 9) {
-      // this.circuitHideShowGroup(id);
-      this.ngOnInit();
+    if (this.cajas[id].circuitState > 10) {
+      this.circuitHideShowGroup(id);
+      // this.ngOnInit();
     }
     this.reset(id);
   }
