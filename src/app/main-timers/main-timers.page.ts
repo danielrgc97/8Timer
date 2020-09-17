@@ -13,7 +13,6 @@ import { Page } from '../menu/page.model';
 import { TextToSpeech } from '@ionic-native/text-to-speech/ngx';
 
 
-import Speech from 'speak-tts';
 
 
 @Component({
@@ -34,11 +33,7 @@ export class MainTimersPage implements OnInit {
   constructor( private router: Router , public alertController: AlertController,
                private cajasService: CajasService, private paginasService: PaginasService,
                private popoverController: PopoverController,
-               private tts: TextToSpeech) {
-                  this.speech = new Speech();
-                  this.speech.init();
-                  this.speech.setLanguage('en-US');
-                }
+               private tts: TextToSpeech) { }
   ngOnInit() {
     if (this.paginasService.subsMain === undefined) {
       this.paginasService.subsMain = this.paginasService.
@@ -61,7 +56,7 @@ export class MainTimersPage implements OnInit {
         while (++i < this.cajas.length && a) {
           if (this.cajas[i].type === 'timer') { a = false; }
         }
-        this.timerPlaying = i - 1;
+        this.timerPlaying = --i;
       });
     });
   }
@@ -309,13 +304,11 @@ export class MainTimersPage implements OnInit {
   // Timer controls
   play(id: number){
 
-    this.speech.cancel();
     const sound = new Howl({
       src: ['../../assets/beeps/beep-02.mp3']
     });
     if (this.thePage.speech === true && this.cajas[id].countingValue === this.cajas[id].timerValue) {
-      this.tts.speak(this.cajas[id].timerName);
-      // this.speech.speak({ text: this.cajas[id].timerName, });
+      this.tts.speak('                                                 ' + this.cajas[id].timerName);
     }
 
     this.playingpage = true;
@@ -669,21 +662,21 @@ export class MainTimersPage implements OnInit {
         while (++i < this.cajas.length && a) {
           if (this.cajas[i].type === 'timer') { a = false; }
         }
-        idToPlay = i - 1;
+        idToPlay = --i;
       }
       if (idToPlay === -2) {idToPlay = id + 1; }
       if (idToPlay === -3) {idToPlay = circuit.id + 1; }
       if (idToPlay === -4) {
         this.paginasService.setCountingLaps(this.thePage.countingLaps);
-        let a = false;
+        let a = true;
         let i = -1;
         while (++i < this.cajas.length && a) {
-          if (this.cajas[i].type === 'timer') { a = true; }
+          if (this.cajas[i].type === 'timer') { a = false; }
         }
-        idToPlay = i;
+        idToPlay = --i;
       }
       if (idToPlay === -5) {
-        this.thePage.countingLaps = 1;
+        this.resetPage();
         this.paginasService.setCountingLaps(this.thePage.countingLaps);
       } else {
         this.controller(idToPlay, 1);
@@ -707,10 +700,7 @@ export class MainTimersPage implements OnInit {
           const cajaId = this.cajas.findIndex(caja => caja.groupId === i );
           if (this.cajas[cajaId].type === 'timer') {time = time + this.cajas[k].countingValue; }
           // MAL
-          let b = false;
-          while (++k < this.cajas.length && b) {
-            if (this.cajas[k].type === 'timer') { b = true; }
-          }
+          k++;
         }
         if (tam > 1) {
           const lastId = this.cajas.findIndex(caja => caja.groupId === i && caja.circuitState === 3);
@@ -722,19 +712,12 @@ export class MainTimersPage implements OnInit {
           }
           j = 1;
           // MAL
-          let b = false;
-          while (++k < this.cajas.length && b) {
-            if (this.cajas[k].type === 'timer') { b = true; }
-          }
+          k++;
         }
       }
       i = 0;
       // MAL
-      let a = false;
-      k = -1;
-      while (++k < this.cajas.length && a) {
-        if (this.cajas[k].type === 'timer') { a = true; }
-      }
+      k = 0;
     }
     this.thePage.timeleft = time;
   }
