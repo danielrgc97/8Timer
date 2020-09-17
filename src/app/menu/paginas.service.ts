@@ -3,6 +3,7 @@ import { Page } from './page.model';
 
 import { Plugins} from '@capacitor/core';
 import { Subscription } from 'rxjs';
+import { CajasService } from '../main-timers/cajas.service';
 const { Storage } = Plugins;
 
 @Injectable({

@@ -30,8 +30,9 @@ export class MainTimersPage implements OnInit {
   timerPlaying = 0;
 
 
-  constructor( private router: Router , public alertController: AlertController,
-               private cajasService: CajasService, private paginasService: PaginasService,
+  constructor( public alertController: AlertController,
+               private cajasService: CajasService,
+               private paginasService: PaginasService,
                private popoverController: PopoverController,
                private tts: TextToSpeech) { }
   ngOnInit() {
@@ -305,10 +306,11 @@ export class MainTimersPage implements OnInit {
   play(id: number){
 
     const sound = new Howl({
-      src: ['../../assets/beeps/beep-02.mp3']
+      src: ['../../assets/beeps/beep-02.mp3'],
+      volume: 0.2
     });
     if (this.thePage.speech === true && this.cajas[id].countingValue === this.cajas[id].timerValue) {
-      this.tts.speak('                                                 ' + this.cajas[id].timerName);
+      this.speechName(this.cajas[id].timerName);
     }
 
     this.playingpage = true;
@@ -330,6 +332,16 @@ export class MainTimersPage implements OnInit {
         sound.play();
       }
     }, 1000);
+  }
+  speechName(toSpeech: string){
+    let s = 1;
+    const interval = setInterval(() => {
+      s--;
+      if (s < 0)  {
+        this.tts.speak(toSpeech);
+        clearInterval(interval);
+      }
+    }, 100);
   }
   pause(id: number){
     clearInterval(this.cajas[id].interval);
@@ -413,25 +425,8 @@ export class MainTimersPage implements OnInit {
       to = this.cajas.findIndex(caja => caja.groupId === this.cajas[event.currentIndex].groupId && caja.circuitState === 3);
     }
     if (to > 0) {
-      if (event.currentIndex <= event.previousIndex && this.cajas[event.currentIndex - 1].circuitState === 10) {
+      if (event.currentIndex < event.previousIndex && this.cajas[event.currentIndex - 1].circuitState === 10) {
         to = this.cajas.findIndex(caja => caja.groupId === this.cajas[event.currentIndex - 1].groupId && caja.circuitState === 3);
-      }
-    }
-
-    if (to > from && (this.cajas[to].circuitState === 1 || this.cajas[to].circuitState === 2)) {
-      let newId = 900;
-      let i = to;
-      do{
-        this.cajas[ ++i ].groupId = newId++;
-      } while (this.cajas[i].circuitState !== 3);
-    }
-    if (to > 0) {
-      if (to <= from && (this.cajas[to - 1].circuitState === 1 || this.cajas[to - 1].circuitState === 2)) {
-        let newId = 900;
-        let i = to;
-        do{
-          this.cajas[ i++ ].groupId = newId++;
-        } while (this.cajas[i].circuitState !== 3);
       }
     }
 
@@ -456,15 +451,33 @@ export class MainTimersPage implements OnInit {
         const cajasToMove = this.cajas.filter( caja => caja.groupId === this.cajas[from].groupId);
         for (const c of cajasToMove) {
           this.moveCajas( c.id, posToMove++);
+          if (this.cajas[posToMove].circuitState === 1 || this.cajas[posToMove].circuitState === 2 ||
+            this.cajas[posToMove].circuitState === 3 ) {
+            let newId = 900;
+            let i = posToMove;
+            do{
+              this.cajas[ i ].groupId = newId++;
+            } while (this.cajas[i++].circuitState !== 3);
+          }
         }
-      } else {
+      } else  if (to > from) {
         const numberOfCajasToMove = this.cajas.filter( caja => caja.groupId === this.cajas[from].groupId).length;
         for (let i = 0; i < numberOfCajasToMove; i++) {
           this.moveCajas( from, to);
         }
+        if (to >= this.cajas.length) {
+          if (this.cajas[to + 1].circuitState === 1 || this.cajas[to + 1].circuitState === 2 || this.cajas[to + 1].circuitState === 3 ) {
+            let newId = 900;
+            let i = to + 1;
+            do{
+              this.cajas[ i ].groupId = newId++;
+            } while (this.cajas[i++].circuitState !== 3);
+          }
+        }
       }
 
     }
+
 
     this.magic();
   }
