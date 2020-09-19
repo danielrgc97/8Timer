@@ -431,13 +431,13 @@ export class MainTimersPage implements OnInit {
 
     // Corrige ids
     if (event.currentIndex > event.previousIndex && this.cajas[event.currentIndex].circuitState === 10) {
-      if (this.cajas.filter(caja => caja.id ===  this.cajas[event.currentIndex].groupId).length > 1 ) {
+      if (this.cajas.filter(caja => caja.groupId ===  this.cajas[event.currentIndex].groupId).length > 1 ) {
         to = this.cajas.findIndex(caja => caja.groupId === this.cajas[event.currentIndex].groupId && caja.circuitState === 3);
       }
     }
     if (to > 0) {
       if (event.currentIndex < event.previousIndex && this.cajas[event.currentIndex - 1].circuitState === 10) {
-        if (this.cajas.filter(caja => caja.id ===  this.cajas[event.currentIndex - 1].groupId).length > 1 ) {
+        if (this.cajas.filter(caja => caja.groupId ===  this.cajas[event.currentIndex - 1].groupId).length > 1 ) {
           to = this.cajas.findIndex(caja => caja.groupId === this.cajas[event.currentIndex - 1].groupId && caja.circuitState === 3);
         }
       }
